@@ -1,0 +1,323 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+v2.0 | 20110126
+License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+
+
+
+/* About Page Container */
+.about-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--text-light);
+  
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.2rem;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+  }
+  
+  /* Stations Section */
+  .stations-section {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-dark);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+  
+      &:before {
+        content: "🚉";
+        font-size: 1.5rem;
+      }
+    }
+  
+    .stations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+  
+      .station-card {
+        background-color: var(--bg-darker);
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-left: 4px solid var(--primary);
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: translateY(-5px);
+        }
+  
+        h3 {
+          color: var(--text-light);
+          margin-top: 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+  
+          span {
+            font-size: 1.8rem;
+          }
+        }
+  
+        .station-info {
+          color: var(--text-muted);
+          margin: 0.5rem 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+  
+          i {
+            color: var(--primary);
+            width: 1.2rem;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Timetable Section */
+  .timetable-section {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-dark);
+  
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+  
+      &:before {
+        content: "⏱️";
+        font-size: 1.5rem;
+      }
+    }
+  
+    .time-records {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+  
+      .time-card {
+        flex: 1;
+        min-width: 250px;
+        background-color: var(--bg-darker);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+  
+        .time-value {
+          font-size: 2rem;
+          color: var(--primary);
+          font-weight: 700;
+          margin: 0.5rem 0;
+        }
+  
+        .time-label {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+        }
+      }
+    }
+  
+    .full-schedule {
+      margin-top: 2rem;
+  
+      h3 {
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border-dark);
+        padding-bottom: 0.5rem;
+      }
+  
+      .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+  
+        th, td {
+          padding: 0.8rem;
+          text-align: left;
+          border-bottom: 1px solid var(--border-dark);
+        }
+  
+        th {
+          color: var(--primary);
+          font-weight: 600;
+        }
+  
+        tr:hover {
+          background-color: rgba(52, 152, 219, 0.1);
+        }
+  
+        .departure-time {
+          font-weight: 600;
+          color: var(--text-light);
+        }
+  
+        .route {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+  
+          &:before {
+            content: "➔";
+            color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+  
+  /* Pricing Section */
+  .pricing-section {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border-dark);
+  
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+  
+      &:before {
+        content: "💵";
+        font-size: 1.5rem;
+      }
+    }
+  
+    .price-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+  
+      .price-card {
+        background-color: var(--bg-darker);
+        border-radius: 8px;
+        padding: 1.5rem;
+        border-top: 4px solid var(--primary);
+  
+        h3 {
+          color: var(--text-light);
+          margin-top: 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+  
+        .price {
+          font-size: 2rem;
+          color: var(--primary);
+          font-weight: 700;
+          margin: 1rem 0;
+        }
+  
+        .route {
+          color: var(--text-muted);
+          margin-bottom: 0.5rem;
+        }
+  
+        .class-info {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px dashed var(--border-dark);
+  
+          .class {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+          }
+  
+          .class-price {
+            color: var(--text-light);
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 1rem;
+    }
+  
+    .stations-grid, .price-cards {
+      grid-template-columns: 1fr !important;
+    }
+  
+    .schedule-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
