@@ -51,10 +51,19 @@ export class HomeComponent  {
 
     // Fetch vagons for the selected train
     this.apiService.getVagons(train.id).subscribe((data: Vagon[]) => {
-      this.vagons = data;
+      console.log('All Vagons:', data); // Log all vagons for debugging
 
       // Filter vagons based on the selected train's ID
-      this.filteredVagons = this.vagons.filter((vagon) => vagon.id === train.id.toString());
+      this.filteredVagons = data.filter((vagon) => vagon.trainId === train.id);
+
+      console.log('Filtered Vagons:', this.filteredVagons); // Log filtered vagons for debugging
+
+      if (this.filteredVagons.length === 0) {
+        alert('No classes available for the selected train.');
+      }
+    }, (error) => {
+      console.error('Error fetching vagons:', error);
+      alert('Failed to load classes for the selected train.');
     });
   }
 

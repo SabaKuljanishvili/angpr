@@ -20,6 +20,7 @@ export interface Train {
 }
 
 export interface Vagon {
+  trainId: number;
   id: string;
   class: string;
   seats: Seat[];
