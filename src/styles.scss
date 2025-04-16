@@ -49,7 +49,6 @@ table {
     border-spacing: 0;
 }
 
-/* ძირითადი სტილები მუქი თემისთვის */
 :root {
     --bg-dark: #1a1a2e;
     --bg-darker: #16213e;
@@ -66,8 +65,8 @@ table {
     color: var(--text-light);
     min-height: 100vh;
     background-image: 
-      radial-gradient(circle at 25% 25%, rgba(46, 49, 146, 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(191, 30, 46, 0.3) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(71, 27, 216, 0.397) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(140, 30, 191, 0.3) 0%, transparent 50%);
   }
   
   .app-container {
@@ -76,164 +75,4 @@ table {
     margin: 0 auto;
     padding: 20px;
     color: var(--text-light);
-  }
-  
-  /* ფორმის სტილები */
-  .form-container {
-    background-color: var(--card-bg);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    margin-bottom: 30px;
-    border: 1px solid var(--border-dark);
-  
-    h2 {
-      color: var(--text-light);
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: 600;
-    }
-  
-    form {
-      label {
-        color: var(--text-muted);
-        
-        select, input {
-          background-color: var(--bg-darker);
-          color: var(--text-light);
-          border: 1px solid var(--border-dark);
-          
-          &:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
-          }
-        }
-      }
-  
-      button {
-        background-color: var(--primary);
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        
-        &:hover {
-          background-color: var(--primary-dark);
-          transform: translateY(-2px);
-        }
-      }
-    }
-  }
-  
-  /* მატარებლის ინფორმაციის ბარათები */
-  .train-info-card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    margin-bottom: 25px;
-    overflow: hidden;
-    border: 1px solid var(--border-dark);
-    transition: transform 0.3s ease;
-  
-    &:hover {
-      transform: translateY(-5px);
-    }
-  
-    .train-route {
-      background-color: var(--primary);
-      color: white;
-      padding: 18px;
-      font-size: 1.1rem;
-    }
-  
-    .train-details {
-      .detail-item .label {
-        color: var(--text-muted);
-      }
-  
-      .journey-line {
-        background-color: var(--primary);
-      }
-    }
-  }
-  
-  /* ადგილების არჩევის სტილები */
-  .selected-seats-summary {
-    background-color: var(--bg-darker);
-    border-left: 4px solid var(--primary);
-  
-    h4 {
-      color: var(--text-light);
-    }
-  }
-  
-  .classes-list {
-    button {
-      background-color: var(--bg-darker);
-      color: var(--text-light);
-      border: 1px solid var(--border-dark);
-  
-      &.selected {
-        background-color: var(--primary);
-      }
-    }
-  }
-  
-  .seats-list {
-    background-color: var(--bg-darker);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid var(--border-dark);
-  
-    span {
-      background-color: var(--card-bg);
-      color: var(--text-light);
-      border: 1px solid var(--border-dark);
-  
-      &:hover:not(.occupied) {
-        background-color: rgba(52, 152, 219, 0.2);
-      }
-  
-      &.selected {
-        background-color: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
-      }
-  
-      &.occupied {
-        background-color: rgba(231, 76, 60, 0.2);
-        color: #e74c3c;
-      }
-    }
-  }
-  
-  .ticket-form {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-dark);
-  
-    input {
-      background-color: var(--bg-darker);
-      color: var(--text-light);
-      border: 1px solid var(--border-dark);
-    }
-  }
-  
-  /* ანიმაციები და ეფექტები */
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
-  }
-  
-  .loading {
-    color: var(--primary);
-    text-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
-  }
-  
-  /* რესპონსივი დიზაინი */
-  @media (max-width: 768px) {
-    .app-container {
-      padding: 15px;
-    }
-    
-    .form-container {
-      padding: 20px 15px;
-    }
   }
