@@ -21,16 +21,18 @@ export interface Train {
 
 export interface Vagon {
   trainId: number;
+  name: string;
   id: string;
   class: string;
   seats: Seat[];
 }
 
 export interface Seat {
-  id: string;
+  id: string; // Seat ID
+  isOccupied: boolean;
   number: string;
-  isAvailable: boolean;
-  price: number; // Added price field
+  price: number;
+  seatId: string; // Unique identifier for the seat
 }
 
 export interface TicketRequest {
