@@ -1,54 +1,51 @@
 <div class="train-booking-container">
-  <h1>Train Ticket Booking</h1>
+  <h1 class="booking-title">Train Ticket Booking</h1>
 
-  <!-- Step 1: Select stations and date -->
   <div class="search-form">
     <div class="form-group">
-      <label>From:</label>
-      <select [(ngModel)]="from">
+      <label class="form-label">From:</label>
+      <select class="form-select" [(ngModel)]="from">
         <option *ngFor="let station of stations" [value]="station">{{ station }}</option>
       </select>
     </div>
     <div class="form-group">
-      <label>To:</label>
-      <select [(ngModel)]="to">
+      <label class="form-label">To:</label>
+      <select class="form-select" [(ngModel)]="to">
         <option *ngFor="let station of stations" [value]="station">{{ station }}</option>
       </select>
     </div>
     <div class="form-group">
-      <label>Date:</label>
-      <input type="date" [(ngModel)]="date" />
+      <label class="form-label">Date:</label>
+      <input class="form-input" type="date" [(ngModel)]="date" />
     </div>
-    <button (click)="searchDepartures()">Search</button>
+    <button class="btn btn-primary search-btn" (click)="searchDepartures()">Search</button>
   </div>
 
-  <!-- Step 2: Select train -->
-  <div *ngIf="trains.length > 0">
-    <h2>Available Trains</h2>
-    <div *ngFor="let train of trains">
-      <button (click)="selectTrain(train)">
+  <div class="train-list" *ngIf="trains.length > 0">
+    <h2 class="section-title">Available Trains</h2>
+    <div class="train-item" *ngFor="let train of trains">
+      <button class="train-btn" (click)="selectTrain(train)">
         Train {{ train.number }}: {{ train.departure }} - {{ train.arrive }} ({{ train.date }})
       </button>
     </div>
   </div>
 
-  <!-- Step 3: Select vagon -->
-  <div *ngIf="filteredVagons.length > 0">
-    <h2>Available Classes</h2>
-    <div *ngFor="let vagon of filteredVagons">
-      <button (click)="selectVagon(vagon)">
-        Class: {{ vagon.class }}
+  <div class="class-list" *ngIf="filteredVagons.length > 0">
+    <h2 class="section-title">Available Classes</h2>
+    <div class="class-item" *ngFor="let vagon of filteredVagons">
+      <button class="class-btn" (click)="selectVagon(vagon)">
+        Class: {{ vagon.name }}
       </button>
     </div>
   </div>
 
-  <!-- Step 4: Select seats -->
-  <div *ngIf="selectedVagon">
-    <h2>Available Seats</h2>
-    <div>
+  <div class="seat-selection" *ngIf="selectedVagon">
+    <h2 class="section-title">Available Seats</h2>
+    <div class="seat-grid">
       <button
+        class="seat-btn"
         *ngFor="let seat of selectedVagon.seats"
-        [disabled]="!seat.isAvailable"
+        [disabled]="seat.isOccupied"
         [class.selected]="selectedSeats.includes(seat)"
         (click)="toggleSeatSelection(seat)"
       >
@@ -57,17 +54,16 @@
     </div>
   </div>
 
-  <!-- Step 5: Enter passenger details -->
-  <div *ngIf="selectedSeats.length > 0">
-    <h2>Passenger Details</h2>
-    <div>
-      <label>Email:</label>
-      <input type="email" [(ngModel)]="email" />
+  <div class="passenger-details" *ngIf="selectedSeats.length > 0">
+    <h2 class="section-title">Passenger Details</h2>
+    <div class="form-group">
+      <label class="form-label">Email:</label>
+      <input class="form-input" type="email" [(ngModel)]="email" />
     </div>
-    <div>
-      <label>Phone Number:</label>
-      <input type="text" [(ngModel)]="phoneNumber" />
+    <div class="form-group">
+      <label class="form-label">Phone Number:</label>
+      <input class="form-input" type="text" [(ngModel)]="phoneNumber" />
     </div>
-    <button (click)="registerTicket()">Book Ticket</button>
+    <button class="btn btn-accent book-btn" (click)="registerTicket()">Book Ticket</button>
   </div>
 </div>

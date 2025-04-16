@@ -24,6 +24,7 @@ export class HomeComponent  {
   selectedSeats: Seat[] = [];
   email = '';
   phoneNumber = '';
+  schema: string = ''; // ახალი ველი სკემისთვის
 
   constructor(private apiService: ApiService) {}
 
@@ -40,8 +41,9 @@ export class HomeComponent  {
       return;
     }
 
-    // Fetch trains based on selected stations and date
-    this.apiService.getDeparture(this.from, this.to, this.date).subscribe((data: any) => {
+    const formattedDate = new Date(this.date).toISOString();
+
+    this.apiService.getDeparture(this.from, this.to, formattedDate).subscribe((data: any) => {
       this.trains = data.flatMap((departure: any) => departure.trains);
     });
   }
@@ -49,14 +51,13 @@ export class HomeComponent  {
   selectTrain(train: Train) {
     this.selectedTrain = train;
 
-    // Fetch vagons for the selected train
-    this.apiService.getVagons(train.id).subscribe((data: Vagon[]) => {
-      console.log('All Vagons:', data); // Log all vagons for debugging
 
-      // Filter vagons based on the selected train's ID
+    this.apiService.getVagons(train.id).subscribe((data: Vagon[]) => {
+      console.log('All Vagons:', data);
+
       this.filteredVagons = data.filter((vagon) => vagon.trainId === train.id);
 
-      console.log('Filtered Vagons:', this.filteredVagons); // Log filtered vagons for debugging
+      console.log('Filtered Vagons:', this.filteredVagons); 
 
       if (this.filteredVagons.length === 0) {
         alert('No classes available for the selected train.');
@@ -69,22 +70,64 @@ export class HomeComponent  {
 
   selectVagon(vagon: Vagon) {
     this.selectedVagon = vagon;
+    console.log('Selected Vagon Seats:', vagon.seats); // ლოგი ადგილების შესამოწმებლად
   }
 
   toggleSeatSelection(seat: Seat) {
-    if (seat.isAvailable) {
-      const index = this.selectedSeats.findIndex((s) => s.id === seat.id);
+    console.log('Selected Seat:', seat); // ლოგი კონკრეტული ადგილისთვის
+    if (!seat.isOccupied) { // მხოლოდ თავისუფალი ადგილები შეიძლება აირჩეს
+      const index = this.selectedSeats.findIndex((s) => s.seatId === seat.seatId);
       if (index > -1) {
+        // თუ ადგილი უკვე არჩეულია, ამოიღეთ
         this.selectedSeats.splice(index, 1);
       } else {
+        // თუ ადგილი არ არის არჩეული, დაამატეთ
         this.selectedSeats.push(seat);
       }
     }
+
+    // ყველა არჩეული ადგილის seatId-ის ლოგი
+    console.log('Selected Seat IDs:', this.selectedSeats.map((s) => s.seatId));
   }
 
   registerTicket() {
     if (!this.email || !this.phoneNumber || this.selectedSeats.length === 0) {
       alert('Please fill all required fields and select at least one seat.');
+      return;
+    }
+
+    const payload: TicketRequest = {
+      trainId: this.selectedTrain!.id,
+      date: this.date,
+      email: this.email,
+      phoneNumber: this.phoneNumber,
+      people: this.selectedSeats.map((seat) => ({
+        seatId: seat.seatId, // გამოიყენეთ seat.seatId
+        name: 'John',
+        surname: 'Doe',
+        idNumber: '123456789',
+        status: 'booked',
+        payoutCompleted: true
+      }))
+    };
+
+    console.log('Payload:', payload); // ლოგი, რათა დავრწმუნდეთ, რომ მონაცემები სწორია
+
+    this.apiService.registerTicket(payload).subscribe(
+      () => {
+        alert('Ticket booked successfully!');
+        this.resetForm();
+      },
+      (error) => {
+        console.error('Error booking ticket:', error);
+        alert('Failed to book ticket. Please try again.');
+      }
+    );
+  }
+
+  registerTicketWithSchema() {
+    if (!this.email || !this.phoneNumber || this.selectedSeats.length === 0 || !this.schema) {
+      alert('Please fill all required fields, select at least one seat, and choose a schema.');
       return;
     }
 
@@ -103,8 +146,8 @@ export class HomeComponent  {
       }))
     };
 
-    this.apiService.registerTicket(payload).subscribe(() => {
-      alert('Ticket booked successfully!');
+    this.apiService.registerTicketWithSchema(payload).subscribe(() => {
+      alert('Ticket booked successfully with schema!');
       this.resetForm();
     });
   }
