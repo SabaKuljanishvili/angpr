@@ -57,6 +57,18 @@
   <div class="passenger-details" *ngIf="selectedSeats.length > 0">
     <h2 class="section-title">Passenger Details</h2>
     <div class="form-group">
+      <label class="form-label">Name:</label>
+      <input class="form-input" type="text" [(ngModel)]="name" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Surname:</label>
+      <input class="form-input" type="text" [(ngModel)]="surname" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Id Number</label>
+      <input class="form-input" type="text" [(ngModel)]="idNumber" />
+    </div>
+    <div class="form-group">
       <label class="form-label">Email:</label>
       <input class="form-input" type="email" [(ngModel)]="email" />
     </div>

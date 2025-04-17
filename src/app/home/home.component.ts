@@ -24,8 +24,10 @@ export class HomeComponent  {
   selectedSeats: Seat[] = [];
   email = '';
   phoneNumber = '';
-  schema: string = ''; // ახალი ველი სკემისთვის
-
+  schema: string = ''; 
+  name = '';
+  surname = '';
+  idNumber = '';
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
@@ -103,9 +105,9 @@ export class HomeComponent  {
       phoneNumber: this.phoneNumber,
       people: this.selectedSeats.map((seat) => ({
         seatId: seat.seatId, // გამოიყენეთ seat.seatId
-        name: 'John',
-        surname: 'Doe',
-        idNumber: '123456789',
+        name: this.name,
+        surname: this.surname,
+        idNumber: this.idNumber,
         status: 'booked',
         payoutCompleted: true
       }))
@@ -114,12 +116,13 @@ export class HomeComponent  {
     console.log('Payload:', payload); // ლოგი, რათა დავრწმუნდეთ, რომ მონაცემები სწორია
 
     this.apiService.registerTicket(payload).subscribe(
-      () => {
+      (response) => {
+        console.log('Swagger Response:', response); // შეამოწმეთ, რას აბრუნებს სერვერი
         alert('Ticket booked successfully!');
         this.resetForm();
       },
       (error) => {
-        console.error('Error booking ticket:', error);
+        console.error('Error booking ticket:', error); // ლოგი შეცდომისთვის
         alert('Failed to book ticket. Please try again.');
       }
     );
@@ -161,5 +164,8 @@ export class HomeComponent  {
     this.selectedSeats = [];
     this.email = '';
     this.phoneNumber = '';
+    this.name = '';
+    this.surname = ''
+    this.idNumber = ''
   }
 }
