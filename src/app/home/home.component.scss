@@ -1,55 +1,90 @@
+// Colors & Theme
 $primary-color: #3f51b5;
 $secondary-color: #f5f5f5;
 $accent-color: #ff4081;
 $text-color: #333;
+
+// UI Variables
 $border-radius: 4px;
 $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
+// Mixins
+@mixin base-btn {
+  width: 100%;
+  padding: 12px 15px;
+  text-align: left;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $secondary-color;
+    border-color: $primary-color;
+  }
+}
+
+@mixin input-style {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: $border-radius;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+}
+
+// Container
 .train-booking-container {
   max-width: 800px;
+  height: 100vh;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Roboto', Arial, sans-serif;
   color: $text-color;
-  
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: $border-radius;
+  }
+
+  // Titles
   .booking-title {
     color: $primary-color;
     text-align: center;
     margin-bottom: 30px;
     font-weight: 500;
   }
-  
+
   .section-title {
     color: $primary-color;
     margin: 25px 0 15px;
     font-size: 1.3rem;
     font-weight: 500;
   }
-  
+
+  // Form
   .form-group {
     margin-bottom: 15px;
-    
+
     .form-label {
       display: block;
       margin-bottom: 8px;
       font-weight: 500;
     }
-    
+
     .form-select,
     .form-input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: $border-radius;
-      font-size: 16px;
-      
-      &:focus {
-        outline: none;
-        border-color: $primary-color;
-      }
+      @include input-style;
     }
   }
-  
+
+  // Buttons
   .btn {
     border: none;
     padding: 10px 20px;
@@ -57,26 +92,27 @@ $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-    
+
     &.btn-primary {
       background-color: $primary-color;
       color: white;
-      
+
       &:hover {
         background-color: darken($primary-color, 10%);
       }
     }
-    
+
     &.btn-accent {
       background-color: $accent-color;
       color: white;
-      
+
       &:hover {
         background-color: darken($accent-color, 10%);
       }
     }
   }
-  
+
+  // Search Section
   .search-form {
     background-color: $secondary-color;
     padding: 20px;
@@ -86,90 +122,55 @@ $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    
+
     .form-group {
       flex: 1 1 200px;
     }
-    
+
     .search-btn {
       margin-top: auto;
       align-self: flex-end;
     }
   }
-  
 
-  .train-list {
-    .train-item {
-      margin-bottom: 10px;
-      
-      .train-btn {
-        width: 100%;
-        padding: 15px;
-        text-align: left;
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: $border-radius;
-        cursor: pointer;
-        transition: all 0.3s;
-        
-        &:hover {
-          background-color: $secondary-color;
-          border-color: $primary-color;
-        }
-      }
-    }
-  }
-  
-
+  // Train & Class List
+  .train-list,
   .class-list {
+    .train-item,
     .class-item {
       margin-bottom: 10px;
-      
+
+      .train-btn,
       .class-btn {
-        width: 100%;
-        padding: 12px;
-        text-align: left;
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: $border-radius;
-        cursor: pointer;
-        transition: all 0.3s;
-        
-        &:hover {
-          background-color: $secondary-color;
-          border-color: $primary-color;
-        }
+        @include base-btn;
       }
     }
   }
-  
 
+  // Seat Selection
   .seat-selection {
     .seat-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
       gap: 10px;
       margin-top: 15px;
-      
+
       .seat-btn {
+        @include base-btn;
+
         padding: 10px;
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: $border-radius;
-        cursor: pointer;
-        transition: all 0.3s;
-        
+
         &:hover:not([disabled]) {
           background-color: $secondary-color;
           border-color: $primary-color;
         }
-        
+
         &[disabled] {
           background-color: #f0f0f0;
           color: #999;
           cursor: not-allowed;
         }
-        
+
         &.selected {
           background-color: $primary-color;
           color: white;
@@ -178,15 +179,15 @@ $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
     }
   }
-  
 
+  // Passenger Details
   .passenger-details {
     background-color: $secondary-color;
     padding: 20px;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     margin-top: 25px;
-    
+
     .book-btn {
       padding: 12px 24px;
       margin-top: 10px;
@@ -194,18 +195,18 @@ $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 }
 
-
+// Responsive Design
 @media (max-width: 600px) {
   .train-booking-container {
     padding: 15px;
-    
+
     .search-form {
       flex-direction: column;
-      
+
       .form-group {
         flex: 1 1 100%;
       }
-      
+
       .search-btn {
         width: 100%;
       }
@@ -213,5 +214,41 @@ $box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 }
 
+// Animation
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(108, 99, 255, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+  }
+}
 
-// need better style and image on top of the cellectior
+// Card Animation
+.card {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 2px solid transparent;
+  border-top: 2px solid #6c63ff;
+  border-left: 2px solid #6c63ff;
+  border-right: 2px solid #6c63ff;
+  border-radius: 10px;
+  overflow: hidden;
+  animation: glowPulse 1s infinite ease-in-out;
+
+  .card-info {
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  &:hover {
+    animation: none;
+    box-shadow: 0 0 25px rgba(217, 95, 8, 0.8);
+  }
+}
