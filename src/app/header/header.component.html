@@ -1,8 +1,17 @@
-<nav>
-    <ul>        
-        <h1>G-M-S</h1>
-        <li><a routerLink="/home" [routerLinkActive]="activeRouteClass">Home</a></li>
-        <li><a routerLink="/cancel" [routerLinkActive]="activeRouteClass">Cancel</a></li>
-        <li><a routerLink="/about" [routerLinkActive]="activeRouteClass">About</a></li> 
-    </ul>
-</nav>
+<nav class="navbar">
+    <div class="navbar-container">
+      <h1 class="navbar-logo">G-M-S</h1>
+      
+      <button class="burger-menu" [class.active]="isMenuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      
+      <ul class="navbar-menu" [class.active]="isMenuOpen" (clickOutside)="closeMenu()">
+        <li><a routerLink="/home" [routerLinkActive]="activeRouteClass" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/cancel" [routerLinkActive]="activeRouteClass" (click)="closeMenu()">Cancel</a></li>
+        <li><a routerLink="/about" [routerLinkActive]="activeRouteClass" (click)="closeMenu()">About</a></li>
+      </ul>
+    </div>
+  </nav>
