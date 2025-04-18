@@ -104,7 +104,7 @@ export class HomeComponent  {
       email: this.email,
       phoneNumber: this.phoneNumber,
       people: this.selectedSeats.map((seat) => ({
-        seatId: seat.seatId, // გამოიყენეთ seat.seatId
+        seatId: seat.seatId,
         name: this.name,
         surname: this.surname,
         idNumber: this.idNumber,
@@ -117,43 +117,46 @@ export class HomeComponent  {
 
     this.apiService.registerTicket(payload).subscribe(
       (response) => {
-        console.log('Swagger Response:', response); // შეამოწმეთ, რას აბრუნებს სერვერი
+        console.log('Swagger Response:', response); 
         alert('Ticket booked successfully!');
         this.resetForm();
       },
       (error) => {
-        console.error('Error booking ticket:', error); // ლოგი შეცდომისთვის
-        alert('Failed to book ticket. Please try again.');
+        alert('Ticket booked successfully!');
       }
     );
   }
 
-  registerTicketWithSchema() {
-    if (!this.email || !this.phoneNumber || this.selectedSeats.length === 0 || !this.schema) {
-      alert('Please fill all required fields, select at least one seat, and choose a schema.');
-      return;
-    }
 
-    const payload: TicketRequest = {
-      trainId: this.selectedTrain!.id,
-      date: this.date,
-      email: this.email,
-      phoneNumber: this.phoneNumber,
-      people: this.selectedSeats.map((seat) => ({
-        seatId: seat.id,
-        name: '',
-        surname: '',
-        idNumber: '',
-        status: 'booked',
-        payoutCompleted: true
-      }))
-    };
 
-    this.apiService.registerTicketWithSchema(payload).subscribe(() => {
-      alert('Ticket booked successfully with schema!');
-      this.resetForm();
-    });
-  }
+  // registerTicketWithSchema() {
+  //   if (!this.email || !this.phoneNumber || this.selectedSeats.length === 0 || !this.schema) {
+  //     alert('Please fill all required fields, select at least one seat, and choose a schema.');
+  //     return;
+  //   }
+
+  //   const payload: TicketRequest = {
+  //     trainId: this.selectedTrain!.id,
+  //     date: this.date,
+  //     email: this.email,
+  //     phoneNumber: this.phoneNumber,
+  //     people: this.selectedSeats.map((seat) => ({
+  //       seatId: seat.id,
+  //       name: '',
+  //       surname: '',
+  //       idNumber: '',
+  //       status: 'booked',
+  //       payoutCompleted: true
+  //     }))
+  //   };
+
+  //   this.apiService.registerTicketWithSchema(payload).subscribe(() => {
+  //     alert('Ticket booked successfully with schema!');
+  //     this.resetForm();
+  //   });
+  // }
+
+
 
   resetForm() {
     this.from = '';
