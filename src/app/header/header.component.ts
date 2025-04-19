@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,12 +13,20 @@ export class HeaderComponent {
 
 
      isMenuOpen = false;
-  
+   
      toggleMenu(): void {
        this.isMenuOpen = !this.isMenuOpen;
      }
-     
+   
      closeMenu(): void {
        this.isMenuOpen = false;
+     }
+   
+     @HostListener('window:resize', ['$event'])
+     onResize(event: Event): void {
+       const window = event.target as Window;
+       if (window.innerWidth > 768) {
+         this.closeMenu();
+       }
      }
 }
