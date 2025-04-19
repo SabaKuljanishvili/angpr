@@ -1,10 +1,9 @@
 <div class="train-booking-container">
-<div class="card">
-  <div class="card-info">
-    <img src="img/georgian-railway-6-1067x800.jpg" alt="">
+  <div class="card">
+    <div class="card-info">
+      <img src="img/georgian-railway-6-1067x800.jpg" alt="Georgian Railway">
+    </div>
   </div>
-</div>
-
 
   <div class="search-form">
     <div class="form-group">
@@ -23,63 +22,78 @@
       <label class="form-label">Date:</label>
       <input class="form-input" type="date" [(ngModel)]="date" />
     </div>
-    <button class="btn btn-primary search-btn" (click)="searchDepartures()">Search</button>
+    <button class="btn" (click)="searchDepartures()">Search</button>
   </div>
 
-  <div class="train-list" *ngIf="trains.length > 0">
+  <div class="train-list-container" *ngIf="trains.length > 0">
     <h2 class="section-title">Available Trains</h2>
-    <div class="train-item" *ngFor="let train of trains">
-      <button class="train-btn" (click)="selectTrain(train)">
-        Train {{ train.number }}: {{ train.departure }} - {{ train.arrive }} ({{ train.date }})
-      </button>
+    <div class="train-list">
+      <div class="train-item" *ngFor="let train of trains">
+        <button class="train-btn" (click)="selectTrain(train)">
+          <div class="train-number">Train {{ train.number }}</div>
+          <div class="train-route">{{ train.departure }} → {{ train.arrive }}</div>
+          <div class="train-date">{{ train.date }}</div>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="class-list" *ngIf="filteredVagons.length > 0">
+  <div class="class-list-container" *ngIf="filteredVagons.length > 0">
     <h2 class="section-title">Available Classes</h2>
-    <div class="class-item" *ngFor="let vagon of filteredVagons">
-      <button class="class-btn" (click)="selectVagon(vagon)">
-        Class: {{ vagon.name }}
-      </button>
+    <div class="class-list">
+      <div class="class-item" *ngFor="let vagon of filteredVagons">
+        <button class="class-btn" (click)="selectVagon(vagon)">
+          {{ vagon.name }}
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="seat-selection" *ngIf="selectedVagon">
+  <div class="seat-selection-container" *ngIf="selectedVagon">
     <h2 class="section-title">Available Seats</h2>
-    <div class="seat-grid">
-      <button
-        class="seat-btn"
-        *ngFor="let seat of selectedVagon.seats"
-        [disabled]="seat.isOccupied"
-        [class.selected]="selectedSeats.includes(seat)"
-        (click)="toggleSeatSelection(seat)"
-      >
-        Seat {{ seat.number }} - Price: {{ seat.price }}₾
-      </button>
+    <div class="vagon-layout">
+      <div class="vagon-diagram">
+        <div class="vagon-body">
+          <div class="seat-row" *ngFor="let row of getSeatRows()">
+            <div class="seat" 
+                 *ngFor="let seat of row" 
+                 [class.occupied]="seat.isOccupied"
+                 [class.selected]="selectedSeats.includes(seat)"
+                 (click)="!seat.isOccupied && toggleSeatSelection(seat)">
+              <span class="seat-number">{{ seat.number }}</span>
+              <span class="seat-price">{{ seat.price }}₾</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="passenger-details" *ngIf="selectedSeats.length > 0">
     <h2 class="section-title">Passenger Details</h2>
-    <div class="form-group">
-      <label class="form-label">Name:</label>
-      <input class="form-input" type="text" [(ngModel)]="name" />
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Name:</label>
+        <input class="form-input" type="text" [(ngModel)]="name" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Surname:</label>
+        <input class="form-input" type="text" [(ngModel)]="surname" required />
+      </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Surname:</label>
-      <input class="form-input" type="text" [(ngModel)]="surname" />
-    </div>
-    <div class="form-group">
-      <label class="form-label">Id Number</label>
-      <input class="form-input" type="text" [(ngModel)]="idNumber" />
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email:</label>
-      <input class="form-input" type="email" [(ngModel)]="email" />
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Id Number:</label>
+        <input class="form-input" type="text" [(ngModel)]="idNumber" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email:</label>
+        <input class="form-input" type="email" [(ngModel)]="email" required />
+      </div>
     </div>
     <div class="form-group">
       <label class="form-label">Phone Number:</label>
-      <input class="form-input" type="text" [(ngModel)]="phoneNumber" />
+      <input class="form-input" type="text" [(ngModel)]="phoneNumber" required />
     </div>
     <button class="btn btn-accent book-btn" (click)="registerTicket()">Book Ticket</button>
   </div>

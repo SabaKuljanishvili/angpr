@@ -1,254 +1,529 @@
-// Colors & Theme
-$primary-color: #3f51b5;
-$secondary-color: #f5f5f5;
-$accent-color: #ff4081;
-$text-color: #333;
+$dark-bg: #121212;
+$dark-surface: #1e1e1e;
+$dark-primary: #bb86fc;
+$dark-primary-variant: #3700b3;
+$dark-secondary: #03dac6;
+$dark-error: #cf6679;
+$dark-text: #e1e1e1;
+$dark-text-secondary: #a0a0a0;
 
-// UI Variables
-$border-radius: 4px;
-$box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-// Mixins
-@mixin base-btn {
-  width: 100%;
-  padding: 12px 15px;
-  text-align: left;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: $border-radius;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: $secondary-color;
-    border-color: $primary-color;
-  }
-}
-
-@mixin input-style {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: $border-radius;
-  font-size: 16px;
-
-  &:focus {
-    outline: none;
-    border-color: $primary-color;
-  }
-}
-
-// Container
 .train-booking-container {
-  max-width: 800px;
-  height: 100vh;
+  max-width: 1000px;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 20px;
-  font-family: 'Roboto', Arial, sans-serif;
-  color: $text-color;
+  padding: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $dark-text;
+  border-radius: 6px;
 
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: $border-radius;
+  .card {
+    margin-bottom: 0;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background-color: $dark-surface;
+
+    &-info img {
+      width: 100%;
+      height: 230px; 
+      object-fit: cover;
+      display: block;
+    }
   }
 
-  // Titles
-  .booking-title {
-    color: $primary-color;
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: 500;
-  }
+  .search-form {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    background: $dark-surface;
+    padding: 12px;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+    box-shadow: 0 0 8px rgba($dark-primary, 0.3);
+    animation: glow 3s infinite alternate;
 
-  .section-title {
-    color: $primary-color;
-    margin: 25px 0 15px;
-    font-size: 1.3rem;
-    font-weight: 500;
-  }
-
-  // Form
-  .form-group {
-    margin-bottom: 15px;
+    .form-group {
+      flex: 1;
+      min-width: 120px;
+    }
 
     .form-label {
       display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: $dark-text;
+      font-size: 0.8rem;
     }
 
-    .form-select,
-    .form-input {
-      @include input-style;
+    .form-select, .form-input {
+      width: 100%;
+      padding: 7px;
+      border: 1px solid lighten($dark-surface, 10%);
+      border-radius: 3px;
+      font-size: 0.8rem;
+      background-color: $dark-surface;
+      color: $dark-text;
+      transition: box-shadow 0.3s;
+
+      &:focus {
+        box-shadow: 0 0 6px rgba($dark-primary, 0.5);
+      }
+    }
+
+    .btn {
+      padding: 8px 24px;
+      margin-left: 10px;
+      background-color: $dark-primary;
+      color: $dark-text;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
+      animation: pulse 2s infinite;
+
+      &:hover {
+        background-color: darken($dark-primary, 10%);
+        box-shadow: 0 0 16px rgba($dark-primary, 0.8);
+      }
     }
   }
 
-  // Buttons
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 8px rgba($dark-primary, 0.3);
+    }
+    100% {
+      box-shadow: 0 0 16px rgba($dark-primary, 0.6);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba($dark-primary, 0.8);
+    }
+    100% {
+      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
+    }
+  }
+
   .btn {
-    border: none;
-    padding: 10px 20px;
-    border-radius: $border-radius;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-
-    &.btn-primary {
-      background-color: $primary-color;
-      color: white;
+    &-accent {
+      background-color: $dark-secondary;
+      color: $dark-bg;
+      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
+      animation: pulse-accent 2s infinite;
 
       &:hover {
-        background-color: darken($primary-color, 10%);
-      }
-    }
-
-    &.btn-accent {
-      background-color: $accent-color;
-      color: white;
-
-      &:hover {
-        background-color: darken($accent-color, 10%);
+        background-color: darken($dark-secondary, 10%);
+        box-shadow: 0 0 16px rgba($dark-secondary, 0.8);
       }
     }
   }
 
-  // Search Section
-  .search-form {
-    background-color: $secondary-color;
-    padding: 20px;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    margin-bottom: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-
-    .form-group {
-      flex: 1 1 200px;
+  @keyframes pulse-accent {
+    0% {
+      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
     }
-
-    .search-btn {
-      margin-top: auto;
-      align-self: flex-end;
+    50% {
+      box-shadow: 0 0 20px rgba($dark-secondary, 0.8);
+    }
+    100% {
+      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
     }
   }
 
-  // Train & Class List
-  .train-list,
-  .class-list {
-    .train-item,
-    .class-item {
-      margin-bottom: 10px;
-
-      .train-btn,
-      .class-btn {
-        @include base-btn;
-      }
-    }
+  .section-title {
+    color: $dark-primary;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid $dark-primary;
+    padding-bottom: 5px;
+    text-shadow: 0 0 6px rgba($dark-primary, 0.5);
   }
 
-  // Seat Selection
-  .seat-selection {
-    .seat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  .train-list-container {
+    margin-bottom: 16px;
+
+    .train-list {
+      display: flex;
       gap: 10px;
-      margin-top: 15px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: $dark-primary $dark-surface;
 
-      .seat-btn {
-        @include base-btn;
+      &::-webkit-scrollbar {
+        height: 5px;
+      }
 
-        padding: 10px;
+      &::-webkit-scrollbar-track {
+        background: $dark-surface;
+      }
 
-        &:hover:not([disabled]) {
-          background-color: $secondary-color;
-          border-color: $primary-color;
-        }
+      &::-webkit-scrollbar-thumb {
+        background-color: $dark-primary;
+        border-radius: 5px;
+      }
+    }
 
-        &[disabled] {
-          background-color: #f0f0f0;
-          color: #999;
-          cursor: not-allowed;
-        }
+    .train-item {
+      min-width: 180px;
+    }
 
-        &.selected {
-          background-color: $primary-color;
-          color: white;
-          border-color: $primary-color;
-        }
+    .train-btn {
+      width: 100%;
+      padding: 10px;
+      background: $dark-surface;
+      border: 1px solid lighten($dark-surface, 10%);
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 6px rgba($dark-primary, 0.2);
+
+      &:hover {
+        border-color: $dark-primary;
+        box-shadow: 0 0 12px rgba($dark-primary, 0.4);
+      }
+    }
+
+    .train-number {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: $dark-primary;
+      text-shadow: 0 0 6px rgba($dark-primary, 0.3);
+    }
+
+    .train-route {
+      font-size: 0.8rem;
+      margin: 5px 0;
+      color: $dark-text;
+    }
+
+    .train-date {
+      font-size: 0.75rem;
+      color: $dark-text-secondary;
+    }
+  }
+
+  .class-list-container {
+    margin-bottom: 16px;
+
+    .class-list {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: $dark-primary $dark-surface;
+
+      &::-webkit-scrollbar {
+        height: 5px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $dark-surface;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $dark-primary;
+        border-radius: 5px;
+      }
+    }
+
+    .class-item {
+      min-width: 100px;
+    }
+
+    .class-btn {
+      width: 100%;
+      padding: 10px;
+      background: $dark-surface;
+      color: #03dac6;
+      border: 1px solid lighten($dark-surface, 10%);
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 6px rgba($dark-primary, 0.1);
+
+      &:hover {
+        border-color: $dark-primary;
+        background-color: lighten($dark-surface, 5%);
+        box-shadow: 0 0 12px rgba($dark-primary, 0.3);
       }
     }
   }
 
-  // Passenger Details
-  .passenger-details {
-    background-color: $secondary-color;
-    padding: 20px;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    margin-top: 25px;
+  .seat-selection-container {
+    margin-bottom: 16px;
 
-    .book-btn {
-      padding: 12px 24px;
-      margin-top: 10px;
+    .section-title {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .vagon-layout {
+      background: $dark-surface;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 12px rgba($dark-primary, 0.2);
+    }
+
+    .vagon-diagram {
+      max-width: 100%;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+
+    .vagon-body {
+      background: lighten($dark-surface, 5%);
+      border: 1px solid $dark-primary;
+      border-radius: 6px;
+      padding: 10px;
+      min-width: 500px;
+    }
+
+    .seat-row {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 6px;
+    }
+
+    .seat {
+      width: 30px;
+      height: 30px;
+      background: lighten($dark-surface, 8%);
+      border: 1px solid $dark-primary;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 4px rgba($dark-primary, 0.2);
+      font-size: 0.65rem;
+
+      &:hover {
+        background: rgba($dark-primary, 0.2);
+        box-shadow: 0 0 6px rgba($dark-primary, 0.3);
+      }
+
+      &.occupied {
+        background: rgba($dark-error, 0.3);
+        border-color: $dark-error;
+        cursor: not-allowed;
+        box-shadow: 0 0 4px rgba($dark-error, 0.2);
+      }
+
+      &.selected {
+        background: rgba($dark-secondary, 0.3);
+        border-color: $dark-secondary;
+        box-shadow: 0 0 8px rgba($dark-secondary, 0.3);
+        animation: pulse-seat 2s infinite;
+      }
+    }
+
+    .seat-number {
+      font-weight: bold;
+    }
+
+    .seat-price {
+      font-size: 0.55rem;
+      color: $dark-primary;
     }
   }
-}
 
-// Responsive Design
-@media (max-width: 600px) {
-  .train-booking-container {
-    padding: 15px;
+  .passenger-details {
+    background-color: $dark-surface;
+    color: $dark-text;
+    padding: 16px;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    margin: 16px 16px;
 
-    .search-form {
-      flex-direction: column;
+    .section-title {
+      color: $dark-primary;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
 
       .form-group {
         flex: 1 1 100%;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+      margin-left: 12px;
+      margin-right: 12px;
+      padding: 6px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      color: $dark-text-secondary;
+      font-size: 0.8rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 3px;
+      border: 1px solid rgba($dark-primary, 0.5);
+      background-color: rgba($dark-bg, 0.8);
+      color: $dark-text;
+      font-size: 0.9rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+
+      &:focus {
+        border-color: $dark-primary;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba($dark-primary, 0.25);
       }
 
-      .search-btn {
-        width: 100%;
+      &:hover:not(:focus) {
+        border-color: rgba($dark-primary, 0.8);
       }
+    }
+
+    .book-btn {
+      background-color: $dark-secondary;
+      color: $dark-bg;
+      border: none;
+      border-radius: 3px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.3s ease;
+      width: 100%;
+
+      &:hover {
+        background-color: darken($dark-secondary, 5%);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (min-width: 576px) {
+    .search-form {
+      .form-group {
+        min-width: 100px;
+      }
+    }
+
+    .passenger-details {
+      padding: 20px;
+
+      .form-row {
+        .form-group {
+          flex: 1 1 calc(50% - 12px);
+        }
+      }
+
+      .book-btn {
+        width: auto;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    padding: 16px;
+
+    .search-form {
+      flex-wrap: nowrap;
+
+      .form-group {
+        min-width: auto;
+      }
+    }
+
+    .passenger-details {
+      padding: 24px;
+
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+      }
+
+      .form-row {
+        gap: 16px;
+        margin-bottom: 16px;
+
+        .form-group {
+          flex: 1 1 calc(33.333% - 16px);
+        }
+      }
+    }
+
+    .seat {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .passenger-details {
+      .form-row {
+        .form-group {
+          flex: 1 1 calc(25% - 16px);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 575px) {
+    .train-item {
+      min-width: 150px;
+    }
+
+    .class-item {
+      min-width: 90px;
+    }
+
+    .seat {
+      width: 28px;
+      height: 28px;
+      font-size: 0.6rem;
     }
   }
 }
 
-// Animation
-@keyframes glowPulse {
+@keyframes pulse-seat {
   0% {
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+    box-shadow: 0 0 4px rgba($dark-secondary, 0.3);
   }
   50% {
-    box-shadow: 0 0 20px rgba(108, 99, 255, 0.9);
+    box-shadow: 0 0 12px rgba($dark-secondary, 0.6);
   }
   100% {
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
-  }
-}
-
-// Card Animation
-.card {
-  max-width: 800px;
-  margin: 0 auto;
-  border: 2px solid transparent;
-  border-top: 2px solid #6c63ff;
-  border-left: 2px solid #6c63ff;
-  border-right: 2px solid #6c63ff;
-  border-radius: 10px;
-  overflow: hidden;
-  animation: glowPulse 1s infinite ease-in-out;
-
-  .card-info {
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-  }
-
-  &:hover {
-    animation: none;
-    box-shadow: 0 0 25px rgba(217, 95, 8, 0.8);
+    box-shadow: 0 0 4px rgba($dark-secondary, 0.3);
   }
 }
