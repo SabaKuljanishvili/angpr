@@ -32,9 +32,4 @@ export class ApiService {
     const url = 'https://railway.stepprojects.ge/api/tickets/register';
     return this.http.post(url, payload);
   }
-  
-  // registerTicketWithSchema(payload: any): Observable<any> {
-  //   const url = 'https://railway.stepprojects.ge/api/tickets/register';
-  //   return this.http.post(url, payload);
-  // }
 }
