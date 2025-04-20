@@ -1,120 +1,194 @@
-import { Component, NgModule } from '@angular/core';
-import { ApiService } from '../services/services.service';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Passenger } from '../models/models';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiService } from '../services/services.service';
 
 @Component({
   selector: 'app-cancel',
   standalone: true,
-  imports: [CommonModule,FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './cancel.component.html',
   styleUrl: './cancel.component.scss'
 })
 export class CancelComponent {
-  ticketForm: FormGroup;
-  verificationForm: FormGroup;
-  ticket: any = null;
-  ticketFound = false;
-  verificationSuccess = false;
-  errorMessage = '';
-  successMessage = '';
-  loading = false;
+  name: string = '';
+  surname: string = '';
+  idNumber: string = '';
+  tickets: any[] = [];
+  isLoading: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
+  debugMode: boolean = true; 
 
-  constructor(
-    private fb: FormBuilder,
-    private apiService: ApiService
-  ) {
-    this.ticketForm = this.fb.group({
-      ticketId: ['', [Validators.required]]
-    });
-
-    this.verificationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      surname: ['', [Validators.required]],
-      idNumber: ['', [Validators.required]]
-    });
-  }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {}
 
-  searchTicket(): void {
-    if (this.ticketForm.invalid) {
+  searchTickets(): void {
+    if (!this.name || !this.surname || !this.idNumber) {
+      this.errorMessage = 'გთხოვთ შეავსოთ ყველა ველი';
       return;
     }
 
-    this.loading = true;
+    this.isLoading = true;
     this.errorMessage = '';
-    this.ticket = null;
-    this.ticketFound = false;
-    this.verificationSuccess = false;
-
-    const ticketId = this.ticketForm.get('ticketId')?.value;
+    this.successMessage = '';
     
-    this.apiService.getTicket(ticketId).subscribe({
-      next: (response) => {
-        this.ticket = response;
-        this.ticketFound = true;
-        this.loading = false;
-      },
-      error: (error) => {
-        this.errorMessage = 'ბილეთი ვერ მოიძებნა. გთხოვთ შეამოწმოთ ბილეთის ნომერი.';
-        this.loading = false;
-      }
-    });
+    this.apiService.getTicketsByPassenger(this.name, this.surname, this.idNumber)
+      .subscribe({
+        next: (data: any) => {
+          // console.log('Received tickets data:', data); 
+          
+          if (Array.isArray(data)) {
+            this.tickets = data;
+          } else if (data && typeof data === 'object') {
+            if (Object.keys(data).some(key => !isNaN(Number(key)))) {
+              this.tickets = Object.values(data);
+            } else {
+              this.tickets = [data];
+            }
+          } else {
+            this.tickets = [];
+          }
+          
+          this.isLoading = false;
+          if (this.tickets.length === 0) {
+            this.errorMessage = 'ბილეთები ვერ მოიძებნა';
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error fetching tickets:', error); 
+          this.isLoading = false;
+          
+          if (error.status === 500) {
+            this.errorMessage = 'სერვერის შეცდომა: შეუძლებელია ბილეთების მოძიება';
+          } else if (error.status === 404) {
+            this.errorMessage = 'ბილეთები ვერ მოიძებნა';
+          } else {
+            this.errorMessage = 'შეცდომა ბილეთების მოძიებისას: ' + 
+              (error.error?.message || error.message || 'უცნობი შეცდომა');
+          }
+          
+          this.tickets = [];
+        }
+      });
   }
 
-  verifyPassenger(): void {
-    if (this.verificationForm.invalid) {
+
+  cancelTicket(ticketId: string): void {
+    if (!ticketId || ticketId === 'უცნობი ID') {
+      this.errorMessage = 'არასწორი ბილეთის ID';
       return;
     }
-
-    this.errorMessage = '';
-    const name = this.verificationForm.get('name')?.value;
-    const surname = this.verificationForm.get('surname')?.value;
-    const idNumber = this.verificationForm.get('idNumber')?.value;
-
-    // Check if any passenger in the ticket matches the provided details
-    const matchingPassenger = this.ticket.people.find((passenger: Passenger) => 
-      passenger.name.toLowerCase() === name.toLowerCase() &&
-      passenger.surname.toLowerCase() === surname.toLowerCase() &&
-      passenger.idNumber === idNumber
+  
+    if (confirm('ნამდვილად გსურთ ბილეთის გაუქმება?')) {
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+      
+      this.apiService.cancelTicket(ticketId)
+        .subscribe({
+          next: (response) => {
+            this.handleCancellationSuccess(ticketId, response);
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 200) {
+              this.handleCancellationSuccess(ticketId, error.error);
+            } else {
+              this.handleCancellationError(error);
+            }
+          }
+        });
+    }
+  }
+  
+  private handleCancellationSuccess(ticketId: string, response: any): void {
+    // console.log('Ticket canceled successfully:', response);
+    this.successMessage = 'ბილეთი წარმატებით გაუქმდა';
+    this.tickets = this.tickets.filter(ticket => 
+      this.getTicketId(ticket) !== ticketId
     );
-
-    if (matchingPassenger) {
-      this.verificationSuccess = true;
+    this.isLoading = false;
+  }
+  
+  private handleCancellationError(error: HttpErrorResponse): void {
+    console.error('Error canceling ticket:', error);
+    this.isLoading = false;
+    
+    if (error.status === 500) {
+      this.errorMessage = 'სერვერის შეცდომა: შეუძლებელია ბილეთის გაუქმება';
+    } else if (error.status === 404) {
+      this.errorMessage = 'ბილეთი ვერ მოიძებნა';
     } else {
-      this.errorMessage = 'მგზავრის მონაცემები არ ემთხვევა ბილეთის მონაცემებს.';
+      this.errorMessage = 'შეცდომა ბილეთის გაუქმებისას: ' + 
+        (error.error?.message || error.message || 'უცნობი შეცდომა');
     }
   }
 
-  cancelTicket(): void {
-    if (!this.verificationSuccess || !this.ticket) {
-      return;
+
+  formatDate(dateString: string): string {
+    if (!dateString) return 'არასწორი თარიღი';
+    
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString; 
+      
+      return date.toLocaleDateString('ka-GE', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (e) {
+      console.error('Error formatting date:', e);
+      return dateString; 
     }
-
-    this.loading = true;
-    const ticketId = this.ticketForm.get('ticketId')?.value;
-
-    this.apiService.cancelTicket(ticketId).subscribe({
-      next: (response) => {
-        this.successMessage = 'ბილეთი წარმატებით გაუქმდა.';
-        this.resetForms();
-        this.loading = false;
-      },
-      error: (error) => {
-        this.errorMessage = 'ბილეთის გაუქმება ვერ მოხერხდა. გთხოვთ სცადოთ მოგვიანებით.';
-        this.loading = false;
-      }
-    });
   }
 
-  resetForms(): void {
-    this.ticketForm.reset();
-    this.verificationForm.reset();
-    this.ticket = null;
-    this.ticketFound = false;
-    this.verificationSuccess = false;
+  clearMessages(): void {
     this.errorMessage = '';
+    this.successMessage = '';
   }
+  
+  getNestedValue(obj: any, path: string, defaultValue: any = 'N/A'): any {
+    if (!obj) return defaultValue;
+    const keys = path.split('.');
+    return keys.reduce((o, key) => (o && o[key] !== undefined) ? o[key] : defaultValue, obj);
+  }
+  
+  getTicketId(ticket: any): string {
+    return ticket.ticketId || ticket.id || 'უცნობი ID';
+  }
+  
+  getTrainName(ticket: any): string {
+    if (ticket.train?.name) {
+      return ticket.train.name;
+    } else if (ticket.trainId) {
+      return `მატარებელი #${ticket.trainId}`;
+    } else if (ticket.train) {
+      return `მატარებელი #${ticket.train}`;
+    }
+    return 'N/A';
+  }
+  
+  getTrainNumber(ticket: any): string {
+    if (ticket.train?.number) {
+      return `№${ticket.train.number}`;
+    } else if (ticket.trainID) {
+      return `№${ticket.trainID}`;
+    }
+    return '';
+  }
+  
+  getPassengers(ticket: any): any[] {
+    if (Array.isArray(ticket.people)) {
+      return ticket.people;
+    } else if (ticket.persons && Array.isArray(ticket.persons)) {
+      return ticket.persons;
+    }
+    return [];
+  }
+
+  
 }

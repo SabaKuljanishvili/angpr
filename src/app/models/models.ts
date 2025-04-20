@@ -54,6 +54,7 @@ export interface Passenger {
 
 
 export interface Ticket {
+  id(id: any): unknown;
   ticketId: string;
   trainId: number;
   date: string;
@@ -67,3 +68,5 @@ export interface Ticket {
     number: number;
   };
 }
+
+
