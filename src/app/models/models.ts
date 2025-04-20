@@ -28,6 +28,7 @@ export interface Vagon {
 }
 
 export interface Seat {
+  vagonId: any;
   id: string; 
   isOccupied: boolean;
   number: string;
