@@ -29,10 +29,10 @@ export class HomeComponent  {
   name = '';
   surname = '';
   idNumber = '';
+  selectedVagons: Vagon[] = [];
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    // Load stations
     this.apiService.getStations().subscribe((data: any) => {
       this.stations = data.map((station: any) => station.name);
     });
@@ -117,18 +117,15 @@ export class HomeComponent  {
   
   selectVagon(vagon: Vagon) {
     this.selectedVagon = vagon;
-    this.selectedSeats = []; // გასუფთავება ადგილების არჩევისას
   }
 
   toggleSeatSelection(seat: Seat) {
-    // console.log('Selected Seat:', seat); // ლოგი კონკრეტული ადგილისთვის
-    if (!seat.isOccupied) { // მხოლოდ თავისუფალი ადგილები შეიძლება აირჩეს
+    // console.log('Selected Seat:', seat); 
+    if (!seat.isOccupied) { 
       const index = this.selectedSeats.findIndex((s) => s.seatId === seat.seatId);
       if (index > -1) {
-        // თუ ადგილი უკვე არჩეულია, ამოიღეთ
         this.selectedSeats.splice(index, 1);
       } else {
-        // თუ ადგილი არ არის არჩეული, დაამატეთ
         this.selectedSeats.push(seat);
       }
     }
@@ -175,7 +172,6 @@ export class HomeComponent  {
             this.resetForm();
           });
         } else {
-          // თუ პასუხი არ შეიცავს წარმატების ინდიკატორს, მაგრამ მაინც არის 200 OK
           Swal.fire({
             icon: 'warning',
             title: 'გაფრთხილება',
