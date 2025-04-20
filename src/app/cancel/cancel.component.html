@@ -45,10 +45,6 @@
                   [disabled]="isLoading || !getTicketId(ticket) || getTicketId(ticket) === 'უცნობი ID'">გაუქმება</button>
         </div>
         
-        <div *ngIf="debugMode" class="debug">
-          <pre>{{ ticket | json }}</pre>
-        </div>
-        
         <div class="ticket-details">
           <div class="detail-row">
             <span class="label">მატარებელი:</span>
