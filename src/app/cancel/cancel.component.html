@@ -1,1 +1,138 @@
-<p>cancel works!</p>
+<div class="cancel-container">
+    <h2>ბილეთის გაუქმება</h2>
+  
+    <div class="search-section">
+      <form [formGroup]="ticketForm" (ngSubmit)="searchTicket()">
+        <div class="form-group">
+          <label for="ticketId">ბილეთის ნომერი</label>
+          <input 
+            type="text" 
+            id="ticketId" 
+            formControlName="ticketId" 
+            placeholder="შეიყვანეთ ბილეთის ნომერი"
+            class="form-control"
+          >
+          <div class="error-message" *ngIf="ticketForm.get('ticketId')?.invalid && ticketForm.get('ticketId')?.touched">
+            ბილეთის ნომერი აუცილებელია
+          </div>
+        </div>
+        <button type="submit" [disabled]="ticketForm.invalid || loading" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner"></span>
+          ძიება
+        </button>
+      </form>
+    </div>
+  
+    <div *ngIf="errorMessage" class="error-alert">
+      {{ errorMessage }}
+    </div>
+  
+    <div *ngIf="successMessage" class="success-alert">
+      {{ successMessage }}
+    </div>
+  
+    <div *ngIf="ticketFound && ticket" class="ticket-details">
+      <h3>ბილეთის დეტალები</h3>
+      
+      <div class="ticket-info">
+        <div class="info-row">
+          <span class="label">მატარებელი:</span>
+          <span class="value">{{ ticket.trainName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">თარიღი:</span>
+          <span class="value">{{ ticket.date }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">გასვლის ადგილი:</span>
+          <span class="value">{{ ticket.from }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">დანიშნულების ადგილი:</span>
+          <span class="value">{{ ticket.to }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">გასვლის დრო:</span>
+          <span class="value">{{ ticket.departure }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">ჩასვლის დრო:</span>
+          <span class="value">{{ ticket.arrive }}</span>
+        </div>
+      </div>
+  
+      <div class="passengers-section">
+        <h4>მგზავრები</h4>
+        <div class="passenger" *ngFor="let passenger of ticket.people">
+          <div class="passenger-info">
+            <div class="info-row">
+              <span class="label">სახელი, გვარი:</span>
+              <span class="value">{{ passenger.name }} {{ passenger.surname }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">პირადი ნომერი:</span>
+              <span class="value">{{ passenger.idNumber }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">ადგილი:</span>
+              <span class="value">{{ passenger.seatNumber }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="verification-section" *ngIf="!verificationSuccess">
+        <h4>მგზავრის მონაცემების დადასტურება</h4>
+        <p>გაუქმების პროცესის გასაგრძელებლად, გთხოვთ შეიყვანოთ ერთ-ერთი მგზავრის მონაცემები</p>
+        
+        <form [formGroup]="verificationForm" (ngSubmit)="verifyPassenger()">
+          <div class="form-group">
+            <label for="name">სახელი</label>
+            <input 
+              type="text" 
+              id="name" 
+              formControlName="name" 
+              placeholder="შეიყვანეთ სახელი"
+              class="form-control"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="surname">გვარი</label>
+            <input 
+              type="text" 
+              id="surname" 
+              formControlName="surname"
+              placeholder="შეიყვანეთ გვარი" 
+              class="form-control"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="idNumber">პირადი ნომერი</label>
+            <input 
+              type="text" 
+              id="idNumber" 
+              formControlName="idNumber" 
+              placeholder="შეიყვანეთ პირადი ნომერი"
+              class="form-control"
+            >
+          </div>
+          
+          <button type="submit" [disabled]="verificationForm.invalid || loading" class="btn btn-secondary">
+            დადასტურება
+          </button>
+        </form>
+      </div>
+  
+      <div class="cancel-action" *ngIf="verificationSuccess">
+        <div class="verification-success">
+          <p>მგზავრის მონაცემები დადასტურებულია</p>
+        </div>
+        <button (click)="cancelTicket()" [disabled]="loading" class="btn btn-danger">
+          <span *ngIf="loading" class="spinner"></span>
+          ბილეთის გაუქმება
+        </button>
+      </div>
+    </div>
+  </div>

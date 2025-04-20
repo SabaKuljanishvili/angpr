@@ -32,4 +32,15 @@ export class ApiService {
     const url = 'https://railway.stepprojects.ge/api/tickets/register';
     return this.http.post(url, payload);
   }
+
+  // New methods for ticket cancellation
+  getTicket(ticketId: string): Observable<any> {
+    const url = `https://railway.stepprojects.ge/api/tickets/${ticketId}`;
+    return this.http.get(url);
+  }
+
+  cancelTicket(ticketId: string): Observable<any> {
+    const url = `https://railway.stepprojects.ge/api/tickets/cancel/${ticketId}`;
+    return this.http.delete(url);
+  }
 }

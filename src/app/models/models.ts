@@ -28,11 +28,11 @@ export interface Vagon {
 }
 
 export interface Seat {
-  id: string; // Seat ID
+  id: string; 
   isOccupied: boolean;
   number: string;
   price: number;
-  seatId: string; // Unique identifier for the seat
+  seatId: string; 
 }
 
 export interface TicketRequest {
@@ -50,4 +50,20 @@ export interface Passenger {
   idNumber: string;
   status?: string;
   payoutCompleted?: boolean;
+}
+
+
+export interface Ticket {
+  ticketId: string;
+  trainId: number;
+  date: string;
+  email: string;
+  phoneNumber: string;
+  people: Passenger[];
+  from?: string;
+  to?: string;
+  train?: {
+    name: string;
+    number: number;
+  };
 }
