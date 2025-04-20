@@ -7,13 +7,12 @@ $dark-error: #cf6679;
 $dark-text: #e1e1e1;
 $dark-text-secondary: #a0a0a0;
 
-
 .cancel-container {
   background-color: $dark-surface;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  padding: 24px;
-  width: 100%;
+  padding: 16px;
+  width: 90%;
   margin: 20px auto;
   max-width: 800px;
 
@@ -34,19 +33,36 @@ $dark-text-secondary: #a0a0a0;
 }
 
 .search-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 24px;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (min-width: 600px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @media (min-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    width: 48%;
+  }
+
+  @media (min-width: 900px) {
+    width: 100%;
+  }
 
   label {
     margin-bottom: 6px;
@@ -84,6 +100,7 @@ button {
   font-weight: 500;
   font-size: 16px;
   transition: all 0.2s ease;
+  width: 100%;
 
   &:hover {
     background-color: lighten($dark-primary, 10%);
@@ -94,10 +111,14 @@ button {
     color: #888;
     cursor: not-allowed;
   }
+
+  @media (min-width: 600px) {
+    width: auto;
+  }
 }
 
 .search-btn {
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .cancel-btn {
@@ -110,22 +131,23 @@ button {
   }
 }
 
-.error-message {
-  background-color: rgba($dark-error, 0.1);
-  color: $dark-error;
+.error-message, .success-message {
   padding: 12px;
   border-radius: 4px;
   margin-bottom: 16px;
-  border-left: 4px solid $dark-error;
+  border-left: 4px solid;
+}
+
+.error-message {
+  background-color: rgba($dark-error, 0.1);
+  color: $dark-error;
+  border-left-color: $dark-error;
 }
 
 .success-message {
   background-color: rgba($dark-secondary, 0.1);
   color: $dark-secondary;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  border-left: 4px solid $dark-secondary;
+  border-left-color: $dark-secondary;
 }
 
 .tickets-list {
@@ -141,11 +163,16 @@ button {
 
   .ticket-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+    flex-direction: column;
+    gap: 6px;
     border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .ticket-id {
       font-weight: 500;
@@ -153,16 +180,14 @@ button {
     }
   }
 
-  .debug {
-    pre {
-      background-color: darken($dark-surface, 2%);
-      padding: 8px;
-      border-radius: 4px;
-      overflow: auto;
-      font-family: monospace;
-      font-size: 12px;
-      color: $dark-text-secondary;
-    }
+  .debug pre {
+    background-color: darken($dark-surface, 2%);
+    padding: 8px;
+    border-radius: 4px;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 12px;
+    color: $dark-text-secondary;
   }
 
   .ticket-details {
@@ -170,12 +195,22 @@ button {
 
     .detail-row {
       display: flex;
+      flex-direction: column;
       margin-bottom: 8px;
 
+      @media (min-width: 600px) {
+        flex-direction: row;
+      }
+
       .label {
-        width: 100px;
+        width: 100%;
         color: $dark-text-secondary;
-        flex-shrink: 0;
+        margin-bottom: 4px;
+
+        @media (min-width: 600px) {
+          width: 120px;
+          margin-bottom: 0;
+        }
       }
 
       .value {
@@ -192,9 +227,14 @@ button {
 
   .passenger-item {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 8px 0;
     border-bottom: 1px solid #333;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
     &:last-child {
       border-bottom: none;
@@ -214,7 +254,13 @@ button {
     .passenger-seat {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: flex-start;
+      margin-top: 8px;
+
+      @media (min-width: 600px) {
+        align-items: flex-end;
+        margin-top: 0;
+      }
 
       .status {
         font-size: 12px;
@@ -235,7 +281,8 @@ button {
   color: $dark-text-secondary;
   font-style: italic;
   text-align: center;
-  padding: 16px;
+  padding: 12px;
+  font-size: 14px;
 }
 
 .debug-info {
@@ -244,5 +291,5 @@ button {
   padding: 8px 12px;
   border-radius: 4px;
   margin-bottom: 16px;
-  font-size: 14px;
+  font-size: 13px;
 }
