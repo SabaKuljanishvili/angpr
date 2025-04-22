@@ -12,7 +12,7 @@ import { ApiService } from '../services/services.service';
   templateUrl: './cancel.component.html',
   styleUrl: './cancel.component.scss'
 })
-export class CancelComponent {
+export class CancelComponent { 
   name: string = '';
   surname: string = '';
   idNumber: string = '';
@@ -26,12 +26,62 @@ export class CancelComponent {
 
   ngOnInit(): void {}
 
+  // searchTickets(): void {
+  //   if (!this.name || !this.surname || !this.idNumber) {
+  //     this.errorMessage = 'გთხოვთ შეავსოთ ყველა ველი';
+  //     return;
+  //   }
+
+  //   this.isLoading = true;
+  //   this.errorMessage = '';
+  //   this.successMessage = '';
+    
+  //   this.apiService.getTicketsByPassenger(this.name, this.surname, this.idNumber)
+  //     .subscribe({
+  //       next: (data: any) => {
+  //         // console.log('Received tickets data:', data); 
+          
+  //         if (Array.isArray(data)) {
+  //           this.tickets = data;
+  //         } else if (data && typeof data === 'object') {
+  //           if (Object.keys(data).some(key => !isNaN(Number(key)))) {
+  //             this.tickets = Object.values(data);
+  //           } else {
+  //             this.tickets = [data];
+  //           }
+  //         } else {
+  //           this.tickets = [];
+  //         }
+          
+  //         this.isLoading = false;
+  //         if (this.tickets.length === 0) {
+  //           this.errorMessage = 'ბილეთები ვერ მოიძებნა';
+  //         }
+  //       },
+  //       error: (error: HttpErrorResponse) => {
+  //         console.error('Error fetching tickets:', error); 
+  //         this.isLoading = false;
+          
+  //         if (error.status === 500) {
+  //           this.errorMessage = 'სერვერის შეცდომა: შეუძლებელია ბილეთების მოძიება';
+  //         } else if (error.status === 404) {
+  //           this.errorMessage = 'ბილეთები ვერ მოიძებნა';
+  //         } else {
+  //           this.errorMessage = 'შეცდომა ბილეთების მოძიებისას: ' + 
+  //             (error.error?.message || error.message || 'უცნობი შეცდომა');
+  //         }
+          
+  //         this.tickets = [];
+  //       }
+  //     });
+  // }
+
   searchTickets(): void {
     if (!this.name || !this.surname || !this.idNumber) {
       this.errorMessage = 'გთხოვთ შეავსოთ ყველა ველი';
       return;
     }
-
+  
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
@@ -39,19 +89,41 @@ export class CancelComponent {
     this.apiService.getTicketsByPassenger(this.name, this.surname, this.idNumber)
       .subscribe({
         next: (data: any) => {
-          // console.log('Received tickets data:', data); 
+          let rawTickets = [];
           
+          // Process the data as before to get raw tickets array
           if (Array.isArray(data)) {
-            this.tickets = data;
+            rawTickets = data;
           } else if (data && typeof data === 'object') {
             if (Object.keys(data).some(key => !isNaN(Number(key)))) {
-              this.tickets = Object.values(data);
+              rawTickets = Object.values(data);
             } else {
-              this.tickets = [data];
+              rawTickets = [data];
             }
-          } else {
-            this.tickets = [];
           }
+          
+          // Now filter the tickets to only include exact matches
+          this.tickets = rawTickets.filter(ticket => {
+            // Check if ticket has people array
+            if (Array.isArray(ticket.people) || Array.isArray(ticket.persons)) {
+              const passengers = ticket.people || ticket.persons;
+              return passengers.some((passenger: { name: string; surname: string; idNumber: string; }) => 
+                passenger.name?.toLowerCase() === this.name.toLowerCase() &&
+                passenger.surname?.toLowerCase() === this.surname.toLowerCase() &&
+                passenger.idNumber === this.idNumber
+              );
+            }
+            
+            // For tickets without people array, check direct properties
+            return (
+              (ticket.name?.toLowerCase() === this.name.toLowerCase() ||
+               ticket.passengerName?.toLowerCase() === this.name.toLowerCase()) &&
+              (ticket.surname?.toLowerCase() === this.surname.toLowerCase() ||
+               ticket.passengerSurname?.toLowerCase() === this.surname.toLowerCase()) &&
+              (ticket.idNumber === this.idNumber ||
+               ticket.passengerIdNumber === this.idNumber)
+            );
+          });
           
           this.isLoading = false;
           if (this.tickets.length === 0) {
@@ -75,6 +147,10 @@ export class CancelComponent {
         }
       });
   }
+
+
+
+  
 
 
   cancelTicket(ticketId: string): void {
