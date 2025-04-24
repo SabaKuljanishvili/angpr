@@ -3,11 +3,13 @@ import { HomeComponent } from './home/home.component';
 import { CancelComponent } from './cancel/cancel.component';
 import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
+import { TicketComponent } from './ticket/ticket.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: "home", pathMatch: "full"  }, 
     {path: 'home', component: HomeComponent},
     {path: 'cancel', component: CancelComponent},
+    {path: 'ticket', component: TicketComponent},
     {path: 'about', component: AboutComponent},
     {path: '**', component: ErrorComponent },
 
@@ -24,6 +26,11 @@ export const routes: Routes = [
       path: "cancel",
       title: "Tickets cancellation",
       loadComponent: () => import('./cancel/cancel.component').then(m => m.CancelComponent)
+   },
+   {
+      path: "ticket",
+      title: "Tickets",
+      loadComponent: () => import('./ticket/ticket.component').then(m => m.TicketComponent)
    },
     {
         path: "about",
