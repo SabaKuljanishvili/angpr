@@ -6,7 +6,9 @@ $dark-secondary: #03dac6;
 $dark-error: #cf6679;
 $dark-text: #e1e1e1;
 $dark-text-secondary: #a0a0a0;
-
+.main {
+  min-height: 100vh;
+}
 .cancel-container {
   background-color: $dark-surface;
   border-radius: 8px;
