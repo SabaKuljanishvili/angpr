@@ -33,36 +33,11 @@ export class ApiService {
     return this.http.post(url, payload);
   }
 
-  // cancelTicket(ticketId: string): Observable<any> {
-  //   if (!ticketId) {
-  //     throw new Error('Invalid ticket ID');
-  //   }
-  //   const url = `https://railway.stepprojects.ge/api/tickets/cancel/${ticketId}`;
-  //   return this.http.delete(url);
-  // }
-
-  // getTicketsByPassenger(name: string, surname: string, idNumber: string): Observable<any> {
-  //   const encodedName = encodeURIComponent(name);
-  //   const encodedSurname = encodeURIComponent(surname);
-  //   const encodedIdNumber = encodeURIComponent(idNumber);
-    
-  //   const url = `https://railway.stepprojects.ge/api/tickets?name=${encodedName}&surname=${encodedSurname}&idNumber=${encodedIdNumber}`;
-  //   return this.http.get(url);
-  // }
-
   cancelTicket(ticketId: string): Observable<any> {
     if (!ticketId) {
       throw new Error('Invalid ticket ID');
     }
-    const url = `https://railway.stepprojects.ge/api/tickets/cancelAll`;
-    return this.http.delete(url);
-  }
-
-  cancelSeat(ticketId: string, seatId: string): Observable<any> {
-    if (!ticketId || !seatId) {
-      throw new Error('Invalid ticket ID or seat ID');
-    }
-    const url = `https://railway.stepprojects.ge/api/tickets/cancel-seat/${ticketId}/${seatId}`;
+    const url = `https://railway.stepprojects.ge/api/tickets/cancel/${ticketId}`;
     return this.http.delete(url);
   }
 
