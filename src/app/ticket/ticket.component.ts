@@ -1,11 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from '../services/services.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-ticket',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './ticket.component.html',
   styleUrl: './ticket.component.scss'
@@ -92,63 +95,61 @@ export class TicketComponent {
       });
   }
 
-  // cancelTicket(ticketId: string): void {
-  //   if (!ticketId || ticketId === 'უცნობი ID') {
-  //     this.errorMessage = 'არასწორი ბილეთის ID';
-  //     return;
-  //   }
-  
-  //   if (confirm('ნამდვილად გსურთ ბილეთის გაუქმება?')) {
-  //     this.isLoading = true;
-  //     this.errorMessage = '';
-  //     this.successMessage = '';
+  // PDF გენერირება
+  async downloadTicketAsPdf(ticket: any) {
+    this.isLoading = true;
+    try {
+      // იპოვეთ ბილეთის ელემენტი
+      const ticketElement = document.querySelector(`.ticket-item`);
       
-  //     this.apiService.cancelTicket(ticketId)
-  //       .subscribe({
-  //         next: (response: any) => {
-  //           this.handleCancellationSuccess(ticketId, response);
-  //         },
-  //         error: (error: HttpErrorResponse) => {
-  //           if (error.status === 200) {
-  //             this.handleCancellationSuccess(ticketId, error.error);
-  //           } else {
-  //             this.handleCancellationError(error);
-  //           }
-  //         }
-  //       });
-  //   }
-  // }
-  
-  private handleCancellationSuccess(ticketId: string, response: any): void {
-    // console.log('Ticket canceled successfully:', response);
-    this.successMessage = 'ბილეთი წარმატებით გაუქმდა';
-    this.tickets = this.tickets.filter(ticket => 
-      this.getTicketId(ticket) !== ticketId
-    );
-    this.isLoading = false;
+      if (!ticketElement) {
+        throw new Error('ბილეთის ელემენტი ვერ მოიძებნა');
+      }
+
+      // HTML გადაიყვანეთ canvas-ში
+      const canvas = await html2canvas(ticketElement as HTMLElement, {
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+
+      // შექმენით PDF დოკუმენტი
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 210; // A4 სიგანე
+      const pageHeight = 295; // A4 სიმაღლე
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // დამატებითი გვერდები თუ საჭიროა
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // PDF-ის შენახვა
+      pdf.save(`ბილეთი_${this.getTicketId(ticket)}.pdf`);
+    } catch (error) {
+      console.error('PDF გენერირების შეცდომა:', error);
+      this.errorMessage = 'PDF გენერირებისას მოხდა შეცდომა';
+    } finally {
+      this.isLoading = false;
+    }
   }
-  
-  // private handleCancellationError(error: HttpErrorResponse): void {
-  //   console.error('Error canceling ticket:', error);
-  //   this.isLoading = false;
-    
-  //   if (error.status === 500) {
-  //     this.errorMessage = 'სერვერის შეცდომა: შეუძლებელია ბილეთის გაუქმება';
-  //   } else if (error.status === 404) {
-  //     this.errorMessage = 'ბილეთი ვერ მოიძებნა';
-  //   } else {
-  //     this.errorMessage = 'შეცდომა ბილეთის გაუქმებისას: ' + 
-  //       (error.error?.message || error.message || 'უცნობი შეცდომა');
-  //   }
-  // }
 
-
+  // დამხმარე ფუნქციები
   formatDate(dateString: string): string {
     if (!dateString) return 'არასწორი თარიღი';
     
     try {
       const date = new Date(dateString);
-      if (isNaN(date.getTime())) return dateString; 
+      if (isNaN(date.getTime())) return dateString;
       
       return date.toLocaleDateString('ka-GE', {
         year: 'numeric',
@@ -157,19 +158,13 @@ export class TicketComponent {
       });
     } catch (e) {
       console.error('Error formatting date:', e);
-      return dateString; 
+      return dateString;
     }
   }
 
   clearMessages(): void {
     this.errorMessage = '';
     this.successMessage = '';
-  }
-  
-  getNestedValue(obj: any, path: string, defaultValue: any = 'N/A'): any {
-    if (!obj) return defaultValue;
-    const keys = path.split('.');
-    return keys.reduce((o, key) => (o && o[key] !== undefined) ? o[key] : defaultValue, obj);
   }
   
   getTicketId(ticket: any): string {
