@@ -156,128 +156,276 @@ button {
   margin-top: 24px;
 }
 
+// .ticket-item {
+//   background-color: rgba($dark-surface, 0.6);
+//   border-radius: 6px;
+//   padding: 16px;
+//   margin-bottom: 16px;
+//   border: 1px solid #333;
+
+//   .ticket-header {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 6px;
+//     border-bottom: 1px solid #333;
+//     padding-bottom: 8px;
+
+//     @media (min-width: 600px) {
+//       flex-direction: row;
+//       justify-content: space-between;
+//       align-items: center;
+//     }
+
+//     .ticket-id {
+//       font-weight: 500;
+//       color: $dark-text;
+//     }
+//   }
+
+//   .debug pre {
+//     background-color: darken($dark-surface, 2%);
+//     padding: 8px;
+//     border-radius: 4px;
+//     overflow: auto;
+//     font-family: monospace;
+//     font-size: 12px;
+//     color: $dark-text-secondary;
+//   }
+
+//   .ticket-details {
+//     margin-bottom: 16px;
+
+//     .detail-row {
+//       display: flex;
+//       flex-direction: column;
+//       margin-bottom: 8px;
+
+//       @media (min-width: 600px) {
+//         flex-direction: row;
+//       }
+
+//       .label {
+//         width: 100%;
+//         color: $dark-text-secondary;
+//         margin-bottom: 4px;
+
+//         @media (min-width: 600px) {
+//           width: 120px;
+//           margin-bottom: 0;
+//         }
+//       }
+
+//       .value {
+//         color: $dark-text;
+//       }
+//     }
+//   }
+// }
+
+// .passengers-section {
+//   background-color: rgba(0, 0, 0, 0.2);
+//   border-radius: 4px;
+//   padding: 16px;
+
+//   .passenger-item {
+//     display: flex;
+//     flex-direction: column;
+//     padding: 8px 0;
+//     border-bottom: 1px solid #333;
+
+//     @media (min-width: 600px) {
+//       flex-direction: row;
+//       justify-content: space-between;
+//     }
+
+//     &:last-child {
+//       border-bottom: none;
+//     }
+
+//     .passenger-details {
+//       display: flex;
+//       flex-direction: column;
+
+//       .id-number {
+//         font-size: 12px;
+//         color: $dark-text-secondary;
+//         margin-top: 4px;
+//       }
+//     }
+
+//     .passenger-seat {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: flex-start;
+//       margin-top: 8px;
+
+//       @media (min-width: 600px) {
+//         align-items: flex-end;
+//         margin-top: 0;
+//       }
+
+//       .status {
+//         font-size: 12px;
+//         color: $dark-secondary;
+//         margin-top: 4px;
+//       }
+
+//       .price {
+//         font-weight: 500;
+//         color: $dark-primary;
+//         margin-top: 4px;
+//       }
+//     }
+//   }
+// }
+
+
 .ticket-item {
-  background-color: rgba($dark-surface, 0.6);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid #333;
+  background: linear-gradient(135deg, #252525, #1e1e1e);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border: 2px dashed #333;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Arial', sans-serif;
 
   .ticket-header {
+    background-color: #5e35b1;
+    color: #fff;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 8px;
+    align-items: center;
+    text-align: center;
 
     @media (min-width: 600px) {
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
+      text-align: left;
     }
 
-    .ticket-id {
-      font-weight: 500;
-      color: $dark-text;
+    .ticket-info {
+      .train-name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .ticket-id {
+        margin-top: 8px;
+        font-size: 16px;
+        opacity: 0.9;
+      }
     }
-  }
 
-  .debug pre {
-    background-color: darken($dark-surface, 2%);
-    padding: 8px;
-    border-radius: 4px;
-    overflow: auto;
-    font-family: monospace;
-    font-size: 12px;
-    color: $dark-text-secondary;
-  }
-
-  .ticket-details {
-    margin-bottom: 16px;
-
-    .detail-row {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 8px;
+    .ticket-actions {
+      margin-top: 12px;
 
       @media (min-width: 600px) {
-        flex-direction: row;
-      }
-
-      .label {
-        width: 100%;
-        color: $dark-text-secondary;
-        margin-bottom: 4px;
-
-        @media (min-width: 600px) {
-          width: 120px;
-          margin-bottom: 0;
-        }
-      }
-
-      .value {
-        color: $dark-text;
-      }
-    }
-  }
-}
-
-.passengers-section {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  padding: 16px;
-
-  .passenger-item {
-    display: flex;
-    flex-direction: column;
-    padding: 8px 0;
-    border-bottom: 1px solid #333;
-
-    @media (min-width: 600px) {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .passenger-details {
-      display: flex;
-      flex-direction: column;
-
-      .id-number {
-        font-size: 12px;
-        color: $dark-text-secondary;
-        margin-top: 4px;
-      }
-    }
-
-    .passenger-seat {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 8px;
-
-      @media (min-width: 600px) {
-        align-items: flex-end;
         margin-top: 0;
       }
 
-      .status {
-        font-size: 12px;
-        color: $dark-secondary;
-        margin-top: 4px;
+      .download-btn {
+        padding: 8px 16px;
+        background-color: #fff;
+        color: #5e35b1;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #f1f1f1;
+        }
+      }
+    }
+  }
+
+  .ticket-separator {
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent,
+      transparent 5px,
+      #666 5px,
+      #666 10px
+    );
+    margin: 0 16px;
+  }
+
+  .ticket-details {
+    padding: 16px;
+    background-color: #1c1c1c;
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+
+      .label {
+        color: #aaa;
+        font-size: 14px;
       }
 
-      .price {
+      .value {
+        color: #fff;
         font-weight: 500;
-        color: $dark-primary;
-        margin-top: 4px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .passengers-section {
+    background-color: #171717;
+    padding: 16px;
+    border-top: 1px dashed #555;
+
+    h4 {
+      margin-bottom: 12px;
+      color: #5e35b1;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .passenger-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-bottom: 1px dashed #444;
+      padding: 8px 0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .passenger-details {
+        font-size: 15px;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .passenger-seat {
+        font-size: 14px;
+        color: #aaa;
+        display: flex;
+        justify-content: space-between;
+
+        .status {
+          color: #26a69a;
+          font-weight: 500;
+        }
+
+        .price {
+          color: #ffca28;
+          font-weight: 600;
+        }
       }
     }
   }
 }
+
 
 .no-passengers, .no-tickets {
   color: $dark-text-secondary;
