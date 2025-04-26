@@ -8,14 +8,16 @@
   <div class="search-form">
     <div class="form-group">
       <label class="form-label">From:</label>
-      <select class="form-select" [(ngModel)]="from">
-        <option *ngFor="let station of stations" [value]="station">{{ station }}</option>
+      <select class="form-select" [(ngModel)]="from" (ngModelChange)="onFromStationChange()">
+        <option value="" disabled selected>საიდან</option>
+        <option *ngFor="let station of availableFromStations" [value]="station">{{ station }}</option>
       </select>
     </div>
     <div class="form-group">
       <label class="form-label">To:</label>
-      <select class="form-select" [(ngModel)]="to">
-        <option *ngFor="let station of stations" [value]="station">{{ station }}</option>
+      <select class="form-select" [(ngModel)]="to" (ngModelChange)="onToStationChange()">
+        <option value="" disabled selected>სად</option>
+        <option *ngFor="let station of availableToStations" [value]="station">{{ station }}</option>
       </select>
     </div>
     <div class="form-group">

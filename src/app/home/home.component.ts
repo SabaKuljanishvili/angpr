@@ -30,12 +30,36 @@ export class HomeComponent  {
   surname = '';
   idNumber = '';
   selectedVagons: Vagon[] = [];
+  
+
+  get availableFromStations(): string[] {
+    return this.stations.filter(station => station !== this.to);
+  }
+  
+  get availableToStations(): string[] {
+    return this.stations.filter(station => station !== this.from);
+  }
+  
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.apiService.getStations().subscribe((data: any) => {
       this.stations = data.map((station: any) => station.name);
     });
+  }
+
+
+  onFromStationChange() {
+    if (this.from === this.to) {
+      this.to = '';
+    }
+  }
+
+
+  onToStationChange() {
+    if (this.to === this.from) {
+      this.from = '';
+    }
   }
 
   searchDepartures() {
@@ -82,7 +106,6 @@ export class HomeComponent  {
           title: 'Error',
           text: 'გამგზავრების ჩატვირთვა ვერ მოხერხდა. გთხოვთ, სცადოთ მოგვიანებით.',
         });
-        // console.error('Error fetching departures:', error);
       }
     });
   }
@@ -120,7 +143,6 @@ export class HomeComponent  {
   }
 
   toggleSeatSelection(seat: Seat) {
-    // console.log('Selected Seat:', seat); 
     if (!seat.isOccupied) { 
       const index = this.selectedSeats.findIndex((s) => s.seatId === seat.seatId);
       if (index > -1) {
@@ -130,10 +152,6 @@ export class HomeComponent  {
       }
     }
   }
-
-
-
-
 
   registerTicket() {
     if (!this.email || !this.phoneNumber || this.selectedSeats.length === 0 || !this.name || !this.surname || !this.idNumber) {
@@ -218,7 +236,6 @@ export class HomeComponent  {
     this.idNumber = '';
   }
 
-
   getSeatRows(): any[][] {
     const rows: any[][] = [];
     if (!this.selectedVagon || !this.selectedVagon.seats) {
@@ -233,8 +250,4 @@ export class HomeComponent  {
   
     return rows;
   }
-
-
-
-  
 }
