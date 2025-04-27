@@ -23,23 +23,13 @@ export class HomeComponent  {
   selectedTrain: Train | null = null;
   selectedVagon: Vagon | null = null;
   selectedSeats: Seat[] = [];
+  selectedVagons: Vagon[] = [];
   email = '';
   phoneNumber = '';
-  schema: string = ''; 
   name = '';
   surname = '';
   idNumber = '';
-  selectedVagons: Vagon[] = [];
-  
 
-  get availableFromStations(): string[] {
-    return this.stations.filter(station => station !== this.to);
-  }
-  
-  get availableToStations(): string[] {
-    return this.stations.filter(station => station !== this.from);
-  }
-  
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
@@ -48,13 +38,19 @@ export class HomeComponent  {
     });
   }
 
+  get availableFromStations(): string[] {
+    return this.stations.filter(station => station !== this.to);
+  }
+  
+  get availableToStations(): string[] {
+    return this.stations.filter(station => station !== this.from);
+  }
 
   onFromStationChange() {
     if (this.from === this.to) {
       this.to = '';
     }
   }
-
 
   onToStationChange() {
     if (this.to === this.from) {
@@ -114,6 +110,7 @@ export class HomeComponent  {
     this.selectedTrain = train;
     this.selectedVagon = null;
     this.selectedSeats = [];
+    this.selectedVagons = [];
   
     this.apiService.getVagons(train.id).subscribe({
       next: (data: Vagon[]) => {
@@ -140,6 +137,11 @@ export class HomeComponent  {
   
   selectVagon(vagon: Vagon) {
     this.selectedVagon = vagon;
+    
+    // თუ ეს კლასი ჯერ არ არის დამატებული, დავამატოთ
+    if (!this.selectedVagons.some(v => v.id === vagon.id)) {
+      this.selectedVagons.push(vagon);
+    }
   }
 
   toggleSeatSelection(seat: Seat) {
@@ -151,6 +153,33 @@ export class HomeComponent  {
         this.selectedSeats.push(seat);
       }
     }
+  }
+
+  getSelectedSeatsForVagon(vagon: Vagon): Seat[] {
+    if (!this.selectedSeats || this.selectedSeats.length === 0) return [];
+    
+    return this.selectedSeats.filter(seat => 
+      seat.vagonId === vagon.id
+    );
+  }
+
+  getTotalPrice(): number {
+    return this.selectedSeats.reduce((total, seat) => total + seat.price, 0);
+  }
+
+  getSeatRows(): any[][] {
+    const rows: any[][] = [];
+    if (!this.selectedVagon || !this.selectedVagon.seats) {
+      return rows; 
+    }
+  
+    const seats = this.selectedVagon.seats;
+  
+    for (let i = 0; i < seats.length; i += 8) {
+      rows.push(seats.slice(i, i + 8));
+    }
+  
+    return rows;
   }
 
   registerTicket() {
@@ -229,25 +258,11 @@ export class HomeComponent  {
     this.selectedTrain = null;
     this.selectedVagon = null;
     this.selectedSeats = [];
+    this.selectedVagons = [];
     this.email = '';
     this.phoneNumber = '';
     this.name = '';
     this.surname = '';
     this.idNumber = '';
-  }
-
-  getSeatRows(): any[][] {
-    const rows: any[][] = [];
-    if (!this.selectedVagon || !this.selectedVagon.seats) {
-      return rows; 
-    }
-  
-    const seats = this.selectedVagon.seats;
-  
-    for (let i = 0; i < seats.length; i += 8) {
-      rows.push(seats.slice(i, i + 8));
-    }
-  
-    return rows;
   }
 }

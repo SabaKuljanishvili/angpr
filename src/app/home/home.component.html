@@ -1,102 +1,150 @@
-<div class="train-booking-container">
-  <div class="card">
-    <div class="card-info">
-      <img src="img/georgian-railway-6-1067x800.jpg" alt="Georgian Railway">
-    </div>
+<div class="main-container">
+  <div class="left-sidebar">
+    <div class="image-placeholder">Image 1</div>
+    <div class="image-placeholder">Image 2</div>
   </div>
-
-  <div class="search-form">
-    <div class="form-group">
-      <label class="form-label">From:</label>
-      <select class="form-select" [(ngModel)]="from" (ngModelChange)="onFromStationChange()">
-        <option value="" disabled selected>საიდან</option>
-        <option *ngFor="let station of availableFromStations" [value]="station">{{ station }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">To:</label>
-      <select class="form-select" [(ngModel)]="to" (ngModelChange)="onToStationChange()">
-        <option value="" disabled selected>სად</option>
-        <option *ngFor="let station of availableToStations" [value]="station">{{ station }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Date:</label>
-      <input class="form-input" type="date" [(ngModel)]="date" />
-    </div>
-    <button class="btn" (click)="searchDepartures()">Search</button>
-  </div>
-
-  <div class="train-list-container" *ngIf="trains.length > 0">
-    <h2 class="section-title">Available Trains</h2>
-    <div class="train-list">
-      <div class="train-item" *ngFor="let train of trains">
-        <button class="train-btn" (click)="selectTrain(train)">
-          <div class="train-number">Train {{ train.number }}</div>
-          <div class="train-route">{{ train.departure }} → {{ train.arrive }}</div>
-          <div class="train-date">{{ train.date }}</div>
-        </button>
+  
+  <div class="content">
+    <!-- Summary Card -->
+    <div class="summary-card" *ngIf="from || selectedTrain || selectedVagons.length > 0">
+      <div class="summary-content">
+        <div class="summary-item" *ngIf="from && to">
+          <span class="summary-label">მარშრუტი:</span>
+          <span class="summary-value">{{from}} → {{to}}</span>
+        </div>
+        <div class="summary-item" *ngIf="date">
+          <span class="summary-label">თარიღი:</span>
+          <span class="summary-value">{{date | date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="summary-item" *ngIf="selectedTrain">
+          <span class="summary-label">მატარებელი:</span>
+          <span class="summary-value">#{{selectedTrain.number}}</span>
+        </div>
+        
+        <div class="class-summary" *ngFor="let vagon of selectedVagons">
+          <div class="summary-item">
+            <span class="summary-label">კლასი:</span>
+            <span class="summary-value">{{vagon.name}}</span>
+          </div>
+          <div class="summary-item" *ngIf="getSelectedSeatsForVagon(vagon).length > 0">
+            <span class="summary-label">სკამები:</span>
+            <span class="summary-value">
+              <span *ngFor="let seat of getSelectedSeatsForVagon(vagon)" class="seat-badge">
+                {{seat.number}}
+                <span class="seat-price-badge">{{seat.price}}₾</span>
+              </span>
+            </span>
+          </div>
+        </div>
+        
+        <div class="summary-item total-price" *ngIf="getTotalPrice() > 0">
+          <span class="summary-label">ჯამი:</span>
+          <span class="summary-value">{{getTotalPrice()}}₾</span>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="class-list-container" *ngIf="filteredVagons.length > 0">
-    <h2 class="section-title">Available Classes</h2>
-    <div class="class-list">
-      <div class="class-item" *ngFor="let vagon of filteredVagons">
-        <button class="class-btn" (click)="selectVagon(vagon)">
-          {{ vagon.name }}
-        </button>
+    
+    <!-- Search Form -->
+    <div class="search-form">
+      <div class="form-group">
+        <label class="form-label">From:</label>
+        <select class="form-select" [(ngModel)]="from" (ngModelChange)="onFromStationChange()">
+          <option value="" disabled selected>საიდან</option>
+          <option *ngFor="let station of availableFromStations" [value]="station">{{ station }}</option>
+        </select>
       </div>
+      <div class="form-group">
+        <label class="form-label">To:</label>
+        <select class="form-select" [(ngModel)]="to" (ngModelChange)="onToStationChange()">
+          <option value="" disabled selected>სად</option>
+          <option *ngFor="let station of availableToStations" [value]="station">{{ station }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date:</label>
+        <input class="form-input" type="date" [(ngModel)]="date" />
+      </div>
+      <button class="btn" (click)="searchDepartures()">Search</button>
     </div>
-  </div>
-
-  <div class="seat-selection-container" *ngIf="selectedVagon">
-    <h2 class="section-title">Available Seats</h2>
-    <div class="vagon-layout">
-      <div class="vagon-diagram">
-        <div class="vagon-body">
-          <div class="seat-row" *ngFor="let row of getSeatRows()">
-            <div class="seat" 
-                 *ngFor="let seat of row" 
-                 [class.occupied]="seat.isOccupied"
-                 [class.selected]="selectedSeats.includes(seat)"
-                 (click)="!seat.isOccupied && toggleSeatSelection(seat)">
-              <span class="seat-number">{{ seat.number }}</span>
-              <span class="seat-price">{{ seat.price }}₾</span>
+    
+    <!-- Booking Sections (Horizontal layout) -->
+    <div class="booking-sections">
+      <div class="booking-section">
+        <h3 class="section-title">Available Trains</h3>
+        <div class="train-list" *ngIf="trains.length > 0">
+          <div class="train-item" *ngFor="let train of trains" (click)="selectTrain(train)">
+            <div class="train-number">Train {{ train.number }}</div>
+            <div class="train-time">{{ train.departure }} → {{ train.arrive }}</div>
+            <div class="train-date">{{ train.date }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="booking-section">
+        <h3 class="section-title">Available Classes</h3>
+        <div class="class-list" *ngIf="filteredVagons.length > 0">
+          <div class="class-item" *ngFor="let vagon of filteredVagons" (click)="selectVagon(vagon)">
+            {{ vagon.name }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="booking-section">
+        <h3 class="section-title">Available Seats</h3>
+        <div class="seat-selection-container" *ngIf="selectedVagon">
+          <div class="vagon-layout">
+            <div class="vagon-diagram">
+              <div class="vagon-body">
+                <div class="seat-row" *ngFor="let row of getSeatRows()">
+                  <div class="seat" 
+                       *ngFor="let seat of row" 
+                       [class.occupied]="seat.isOccupied"
+                       [class.selected]="selectedSeats.includes(seat)"
+                       (click)="!seat.isOccupied && toggleSeatSelection(seat)">
+                    <span class="seat-number">{{ seat.number }}</span>
+                    <span class="seat-price">{{ seat.price }}₾</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <div class="booking-section">
+        <h3 class="section-title">Passenger Details</h3>
+        <div class="passenger-details" *ngIf="selectedSeats.length > 0">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Name:</label>
+              <input class="form-input" type="text" [(ngModel)]="name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Surname:</label>
+              <input class="form-input" type="text" [(ngModel)]="surname" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Id Number:</label>
+              <input class="form-input" type="text" [(ngModel)]="idNumber" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email:</label>
+              <input class="form-input" type="email" [(ngModel)]="email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number:</label>
+            <input class="form-input" type="text" [(ngModel)]="phoneNumber" required />
+          </div>
+          <button class="btn btn-accent book-btn" (click)="registerTicket()">Book Ticket</button>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="passenger-details" *ngIf="selectedSeats.length > 0">
-    <h2 class="section-title">Passenger Details</h2>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Name:</label>
-        <input class="form-input" type="text" [(ngModel)]="name" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Surname:</label>
-        <input class="form-input" type="text" [(ngModel)]="surname" required />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Id Number:</label>
-        <input class="form-input" type="text" [(ngModel)]="idNumber" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email:</label>
-        <input class="form-input" type="email" [(ngModel)]="email" required />
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Phone Number:</label>
-      <input class="form-input" type="text" [(ngModel)]="phoneNumber" required />
-    </div>
-    <button class="btn btn-accent book-btn" (click)="registerTicket()">Book Ticket</button>
+  
+  <div class="right-sidebar">
+    <div class="image-placeholder">Advertisement</div>
   </div>
 </div>

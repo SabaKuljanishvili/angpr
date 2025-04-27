@@ -7,290 +7,364 @@ $dark-error: #cf6679;
 $dark-text: #e1e1e1;
 $dark-text-secondary: #a0a0a0;
 
-.train-booking-container {
-  max-width: 1000px;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 12px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  background-color: $dark-bg;
   color: $dark-text;
-  border-radius: 6px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  .card {
-    margin-bottom: 0;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    background-color: $dark-surface;
-
-    &-info img {
-      width: 100%;
-      height: 230px; 
-      object-fit: cover;
-      display: block;
-    }
+.nav-bar {
+  background-color: #1a1a2e;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $dark-primary-variant;
+  
+  .logo {
+    color: $dark-text;
+    font-weight: bold;
+    font-size: 1.2rem;
   }
-
-  .search-form {
+  
+  .nav-links {
     display: flex;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 16px;
-    background: $dark-surface;
-    padding: 12px;
-    border-radius: 0 0 5px 5px;
-    position: relative;
-    box-shadow: 0 0 8px rgba($dark-primary, 0.3);
-    animation: glow 3s infinite alternate;
-
-    .form-group {
-      flex: 1;
-      min-width: 120px;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
+    gap: 20px;
+    
+    .nav-link {
       color: $dark-text;
-      font-size: 0.8rem;
-    }
-
-    .form-select, .form-input {
-      width: 100%;
-      padding: 7px;
-      border: 1px solid lighten($dark-surface, 10%);
+      text-decoration: none;
+      padding: 5px 10px;
       border-radius: 3px;
-      font-size: 0.8rem;
-      background-color: $dark-surface;
-      color: $dark-text;
-      transition: box-shadow 0.3s;
-
-      &:focus {
-        box-shadow: 0 0 6px rgba($dark-primary, 0.5);
-      }
-    }
-
-    .btn {
-      padding: 8px 24px;
-      margin-left: 10px;
-      background-color: $dark-primary;
-      color: $dark-text;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 0.85rem;
       transition: all 0.3s;
-      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
-      animation: pulse 2s infinite;
-
+      
       &:hover {
-        background-color: darken($dark-primary, 10%);
-        box-shadow: 0 0 16px rgba($dark-primary, 0.8);
+        background-color: rgba($dark-primary, 0.1);
+      }
+      
+      &.active {
+        color: $dark-primary;
+        border-bottom: 2px solid $dark-primary;
       }
     }
   }
+}
 
-  @keyframes glow {
-    0% {
-      box-shadow: 0 0 8px rgba($dark-primary, 0.3);
-    }
-    100% {
-      box-shadow: 0 0 16px rgba($dark-primary, 0.6);
+.main-container {
+  display: flex;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.left-sidebar {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-placeholder {
+  background: linear-gradient(45deg, #2a2a3d, #1a1a2e);
+  height: 300px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $dark-text-secondary;
+  border: 1px solid $dark-primary-variant;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.right-sidebar {
+  width: 250px;
+  
+  .image-placeholder {
+    height: 100%;
+    min-height: 300px;
+  }
+}
+
+.content {
+  flex-grow: 1;
+}
+
+// Summary Card
+.summary-card {
+  background: $dark-surface;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba($dark-primary, 0.2);
+  border-left: 4px solid $dark-primary;
+  
+  .summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .class-summary {
+    background: lighten($dark-surface, 5%);
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 8px;
+    border-left: 3px solid $dark-secondary;
+    
+    .summary-item {
+      margin-bottom: 8px;
     }
   }
+  
+  .summary-item {
+    display: flex;
+    align-items: center;
+    
+    &.total-price {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid $dark-primary;
+      font-weight: bold;
+      
+      .summary-value {
+        color: $dark-secondary;
+        font-size: 1.1rem;
+      }
+    }
+  }
+  
+  .summary-label {
+    font-weight: 600;
+    color: $dark-primary;
+    margin-right: 8px;
+    font-size: 0.9rem;
+    min-width: 80px;
+  }
+  
+  .summary-value {
+    color: $dark-text;
+    font-size: 0.9rem;
+  }
+  
+  .seat-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba($dark-secondary, 0.1);
+    color: $dark-secondary;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    border: 1px solid $dark-secondary;
+    
+    .seat-price-badge {
+      margin-left: 6px;
+      color: $dark-primary;
+      font-size: 0.75rem;
+    }
+  }
+}
 
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba($dark-primary, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 12px rgba($dark-primary, 0.5);
+// Search Form
+.search-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  background: $dark-surface;
+  padding: 12px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0 0 8px rgba($dark-primary, 0.3);
+  animation: glow 3s infinite alternate;
+
+  .form-group {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: $dark-text;
+    font-size: 0.8rem;
+  }
+
+  .form-select, .form-input {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid lighten($dark-surface, 10%);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    background-color: $dark-surface;
+    color: $dark-text;
+    transition: box-shadow 0.3s;
+
+    &:focus {
+      box-shadow: 0 0 6px rgba($dark-primary, 0.5);
     }
   }
 
   .btn {
-    &-accent {
-      background-color: $dark-secondary;
-      color: $dark-bg;
-      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
-      animation: pulse-accent 2s infinite;
+    padding: 8px 24px;
+    margin-left: 10px;
+    background-color: $dark-primary;
+    color: $dark-text;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    box-shadow: 0 0 12px rgba($dark-primary, 0.5);
+    animation: pulse 2s infinite;
 
-      &:hover {
-        background-color: darken($dark-secondary, 10%);
-        box-shadow: 0 0 16px rgba($dark-secondary, 0.8);
-      }
+    &:hover {
+      background-color: darken($dark-primary, 10%);
+      box-shadow: 0 0 16px rgba($dark-primary, 0.8);
     }
   }
+}
 
-  @keyframes pulse-accent {
-    0% {
-      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba($dark-secondary, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 12px rgba($dark-secondary, 0.5);
-    }
+// Booking Sections
+.booking-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  
+  .booking-section {
+    flex: 1;
+    min-width: 230px;
+    background: $dark-surface;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
-
+  
   .section-title {
     color: $dark-primary;
     margin-bottom: 12px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border-bottom: 1px solid $dark-primary;
     padding-bottom: 5px;
     text-shadow: 0 0 6px rgba($dark-primary, 0.5);
   }
+}
 
-  .train-list-container {
-    margin-bottom: 16px;
+// Train List
+.train-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: $dark-primary $dark-surface;
 
-    .train-list {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scrollbar-width: thin;
-      scrollbar-color: $dark-primary $dark-surface;
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
 
-      &::-webkit-scrollbar {
-        height: 5px;
-      }
+  &::-webkit-scrollbar-track {
+    background: $dark-surface;
+  }
 
-      &::-webkit-scrollbar-track {
-        background: $dark-surface;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: $dark-primary;
-        border-radius: 5px;
-      }
+  &::-webkit-scrollbar-thumb {
+    background-color: $dark-primary;
+    border-radius: 5px;
+  }
+  
+  .train-item {
+    background: lighten($dark-surface, 5%);
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    
+    &:hover {
+      border-color: $dark-primary;
+      box-shadow: 0 0 8px rgba($dark-primary, 0.3);
     }
-
-    .train-item {
-      min-width: 180px;
+    
+    &.selected {
+      border-color: $dark-primary;
+      background: rgba($dark-primary, 0.1);
     }
-
-    .train-btn {
-      width: 100%;
-      padding: 10px;
-      background: $dark-surface;
-      border: 1px solid lighten($dark-surface, 10%);
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 0 6px rgba($dark-primary, 0.2);
-
-      &:hover {
-        border-color: $dark-primary;
-        box-shadow: 0 0 12px rgba($dark-primary, 0.4);
-      }
-    }
-
+    
     .train-number {
       font-weight: bold;
-      font-size: 0.9rem;
       color: $dark-primary;
       text-shadow: 0 0 6px rgba($dark-primary, 0.3);
     }
-
-    .train-route {
-      font-size: 0.8rem;
-      margin: 5px 0;
-      color: $dark-text;
-    }
-
-    .train-date {
-      font-size: 0.75rem;
+    
+    .train-time, .train-date {
+      font-size: 0.85rem;
       color: $dark-text-secondary;
+      margin-top: 5px;
     }
   }
+}
 
-  .class-list-container {
-    margin-bottom: 16px;
-
-    .class-list {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scrollbar-width: thin;
-      scrollbar-color: $dark-primary $dark-surface;
-
-      &::-webkit-scrollbar {
-        height: 5px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $dark-surface;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: $dark-primary;
-        border-radius: 5px;
-      }
+// Class List
+.class-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  
+  .class-item {
+    background: lighten($dark-surface, 5%);
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    color: $dark-secondary;
+    
+    &:hover {
+      border-color: $dark-primary;
+      box-shadow: 0 0 8px rgba($dark-primary, 0.3);
     }
-
-    .class-item {
-      min-width: 100px;
-    }
-
-    .class-btn {
-      width: 100%;
-      padding: 10px;
-      background: $dark-surface;
-      color: #03dac6;
-      border: 1px solid lighten($dark-surface, 10%);
-      border-radius: 5px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 0 6px rgba($dark-primary, 0.1);
-
-      &:hover {
-        border-color: $dark-primary;
-        background-color: lighten($dark-surface, 5%);
-        box-shadow: 0 0 12px rgba($dark-primary, 0.3);
-      }
+    
+    &.selected {
+      border-color: $dark-secondary;
+      background: rgba($dark-secondary, 0.1);
     }
   }
+}
 
-  .seat-selection-container {
-    margin-bottom: 16px;
+// Seat Selection
+.seat-selection-container {
+  .vagon-layout {
+    background: $dark-surface;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 12px rgba($dark-primary, 0.2);
+  }
 
-    .section-title {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
+  .vagon-diagram {
+    max-width: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
 
-    .vagon-layout {
-      background: $dark-surface;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 0 12px rgba($dark-primary, 0.2);
-    }
-
-    .vagon-diagram {
-      max-width: 100%;
-      margin: 0 auto;
-      overflow-x: auto;
-    }
-
-    .vagon-body {
-      background: lighten($dark-surface, 5%);
-      border: 1px solid $dark-primary;
-      border-radius: 6px;
-      padding: 10px;
-      min-width: 500px;
-    }
-
+  .vagon-body {
+    background: lighten($dark-surface, 5%);
+    border: 1px solid $dark-primary;
+    border-radius: 6px;
+    padding: 10px;
+    min-width: 500px;
+    
     .seat-row {
       display: flex;
       justify-content: space-around;
@@ -330,188 +404,142 @@ $dark-text-secondary: #a0a0a0;
         box-shadow: 0 0 8px rgba($dark-secondary, 0.3);
         animation: pulse-seat 2s infinite;
       }
-    }
+      
+      .seat-number {
+        font-weight: bold;
+      }
 
-    .seat-number {
-      font-weight: bold;
-    }
-
-    .seat-price {
-      font-size: 0.55rem;
-      color: $dark-primary;
-    }
-  }
-
-  .passenger-details {
-    background-color: $dark-surface;
-    color: $dark-text;
-    padding: 16px;
-    border-radius: 6px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-    margin: 16px 16px;
-
-    .section-title {
-      color: $dark-primary;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-      font-weight: 500;
-      letter-spacing: 0.4px;
-    }
-
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 12px;
-
-      .form-group {
-        flex: 1 1 100%;
-        margin-left: 12px;
-        margin-right: 12px;
+      .seat-price {
+        font-size: 0.55rem;
+        color: $dark-primary;
       }
     }
+  }
+}
+
+// Passenger Details
+.passenger-details {
+  background-color: $dark-surface;
+  color: $dark-text;
+  padding: 16px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
 
     .form-group {
-      margin-bottom: 12px;
-      margin-left: 12px;
-      margin-right: 12px;
-      padding: 6px;
+      flex: 1 1 100%;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 6px;
+    color: $dark-text-secondary;
+    font-size: 0.8rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 3px;
+    border: 1px solid rgba($dark-primary, 0.5);
+    background-color: rgba($dark-bg, 0.8);
+    color: $dark-text;
+    font-size: 0.9rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      border-color: $dark-primary;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($dark-primary, 0.25);
     }
 
-    .form-label {
-      display: block;
-      margin-bottom: 6px;
+    &:hover:not(:focus) {
+      border-color: rgba($dark-primary, 0.8);
+    }
+  }
+
+  .book-btn {
+    background-color: $dark-secondary;
+    color: $dark-bg;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.3s ease;
+    width: 100%;
+
+    &:hover {
+      background-color: darken($dark-secondary, 5%);
+      transform: translateY(-2px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Footer
+.footer {
+  background-color: #1a1a2e;
+  padding: 16px;
+  text-align: center;
+  color: $dark-text-secondary;
+  font-size: 0.85rem;
+  margin-top: 40px;
+  border-top: 1px solid $dark-primary-variant;
+  
+  .social-links {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    
+    .social-link {
       color: $dark-text-secondary;
-      font-size: 0.8rem;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 3px;
-      border: 1px solid rgba($dark-primary, 0.5);
-      background-color: rgba($dark-bg, 0.8);
-      color: $dark-text;
-      font-size: 0.9rem;
-      transition: border-color 0.3s, box-shadow 0.3s;
-
-      &:focus {
-        border-color: $dark-primary;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba($dark-primary, 0.25);
-      }
-
-      &:hover:not(:focus) {
-        border-color: rgba($dark-primary, 0.8);
-      }
-    }
-
-    .book-btn {
-      background-color: $dark-secondary;
-      color: $dark-bg;
-      border: none;
-      border-radius: 3px;
-      padding: 10px 20px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: all 0.3s ease;
-      width: 100%;
-
+      text-decoration: none;
+      transition: color 0.3s;
+      
       &:hover {
-        background-color: darken($dark-secondary, 5%);
-        transform: translateY(-2px);
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-      }
-
-      &:active {
-        transform: translateY(0);
+        color: $dark-primary;
       }
     }
   }
+}
 
-  @media (min-width: 576px) {
-    .search-form {
-      .form-group {
-        min-width: 100px;
-      }
-    }
-
-    .passenger-details {
-      padding: 20px;
-
-      .form-row {
-        .form-group {
-          flex: 1 1 calc(50% - 12px);
-        }
-      }
-
-      .book-btn {
-        width: auto;
-      }
-    }
+// Animations
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 8px rgba($dark-primary, 0.3);
   }
-
-  @media (min-width: 768px) {
-    padding: 16px;
-
-    .search-form {
-      flex-wrap: nowrap;
-
-      .form-group {
-        min-width: auto;
-      }
-    }
-
-    .passenger-details {
-      padding: 24px;
-
-      .section-title {
-        font-size: 1.3rem;
-        margin-bottom: 20px;
-      }
-
-      .form-row {
-        gap: 16px;
-        margin-bottom: 16px;
-
-        .form-group {
-          flex: 1 1 calc(33.333% - 16px);
-        }
-      }
-    }
-
-    .seat {
-      width: 32px;
-      height: 32px;
-    }
+  100% {
+    box-shadow: 0 0 16px rgba($dark-primary, 0.6);
   }
+}
 
-  @media (min-width: 992px) {
-    .passenger-details {
-      .form-row {
-        .form-group {
-          flex: 1 1 calc(25% - 16px);
-        }
-      }
-    }
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 12px rgba($dark-primary, 0.5);
   }
-
-  @media (max-width: 575px) {
-    .train-item {
-      min-width: 150px;
-    }
-
-    .class-item {
-      min-width: 90px;
-    }
-
-    .seat {
-      width: 28px;
-      height: 28px;
-      font-size: 0.6rem;
-    }
+  50% {
+    box-shadow: 0 0 20px rgba($dark-primary, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba($dark-primary, 0.5);
   }
 }
 
@@ -524,5 +552,125 @@ $dark-text-secondary: #a0a0a0;
   }
   100% {
     box-shadow: 0 0 4px rgba($dark-secondary, 0.3);
+  }
+}
+
+// Media Queries
+@media (min-width: 576px) {
+  .search-form {
+    .form-group {
+      min-width: 100px;
+    }
+  }
+
+  .passenger-details {
+    padding: 20px;
+
+    .form-row {
+      .form-group {
+        flex: 1 1 calc(50% - 12px);
+      }
+    }
+
+    .book-btn {
+      width: auto;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .main-container {
+    padding: 16px;
+  }
+
+  .search-form {
+    flex-wrap: nowrap;
+
+    .form-group {
+      min-width: auto;
+    }
+  }
+
+  .passenger-details {
+    padding: 24px;
+
+    .form-row {
+      gap: 16px;
+      margin-bottom: 16px;
+
+      .form-group {
+        flex: 1 1 calc(33.333% - 16px);
+      }
+    }
+  }
+
+  .seat-selection-container {
+    .vagon-body {
+      .seat {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .passenger-details {
+    .form-row {
+      .form-group {
+        flex: 1 1 calc(25% - 16px);
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .main-container {
+    flex-direction: column;
+  }
+  
+  .left-sidebar, .right-sidebar {
+    width: 100%;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .image-placeholder {
+    flex: 1;
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-section {
+    min-width: 100%;
+  }
+  
+  .left-sidebar, .right-sidebar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 575px) {
+  .train-list {
+    .train-item {
+      min-width: 150px;
+    }
+  }
+
+  .class-list {
+    .class-item {
+      min-width: 90px;
+    }
+  }
+
+  .seat-selection-container {
+    .vagon-body {
+      .seat {
+        width: 28px;
+        height: 28px;
+        font-size: 0.6rem;
+      }
+    }
   }
 }
