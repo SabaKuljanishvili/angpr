@@ -59,14 +59,10 @@ table {
     --card-bg: #2a2a4a;
     --border-dark: #3d3d5a;
   }
-  
   body {
     background-color: var(--bg-dark);
     color: var(--text-light);
-    min-height: 100vh;
-    background-image: 
-      radial-gradient(circle at 25% 25%, rgba(71, 27, 216, 0.397) 0%, transparent 50%),
-      radial-gradient(circle at 70% 70%, rgba(140, 30, 191, 0.3) 0%, transparent 50%);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   }
   
   .app-container {
