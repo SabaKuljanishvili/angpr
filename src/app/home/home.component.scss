@@ -1,56 +1,13 @@
 $dark-bg: #121212;
-$dark-surface: #1e1e1e;
-$dark-primary: #bb86fc;
+$dark-surface: #e7eacc;
+$dark-primary: #222222;
 $dark-primary-variant: #3700b3;
-$dark-secondary: #03dac6;
+$dark-secondary: #0359da;
 $dark-error: #cf6679;
-$dark-text: #e1e1e1;
-$dark-text-secondary: #a0a0a0;
+$dark-text: #000000;
+$dark-text-secondary: #333;
+$btn: #4725ac;
 
-body {
-  background-color: $dark-bg;
-  color: $dark-text;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-bar {
-  background-color: #1a1a2e;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid $dark-primary-variant;
-  
-  .logo {
-    color: $dark-text;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  
-  .nav-links {
-    display: flex;
-    gap: 20px;
-    
-    .nav-link {
-      color: $dark-text;
-      text-decoration: none;
-      padding: 5px 10px;
-      border-radius: 3px;
-      transition: all 0.3s;
-      
-      &:hover {
-        background-color: rgba($dark-primary, 0.1);
-      }
-      
-      &.active {
-        color: $dark-primary;
-        border-bottom: 2px solid $dark-primary;
-      }
-    }
-  }
-}
 
 .main-container {
   display: flex;
@@ -58,6 +15,7 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   gap: 20px;
+  min-height: 100vh;
 }
 
 .left-sidebar {
@@ -68,25 +26,62 @@ body {
 }
 
 .image-placeholder {
-  background: linear-gradient(45deg, #2a2a3d, #1a1a2e);
   height: 300px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: $dark-text-secondary;
-  border: 1px solid $dark-primary-variant;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.right-sidebar {
-  width: 250px;
-  
-  .image-placeholder {
-    height: 100%;
-    min-height: 300px;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
   }
 }
+
+// .right-sidebar 
+.right-sidebar {
+  width: 250px;
+  max-height: 660px;
+  background: rgba( 255, 255, 255, 0 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 11.5px );
+  -webkit-backdrop-filter: blur( 11.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .image-placeholder1 {
+    width: 100%;
+    height: fit-content;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+
+    p {
+      color:$dark-surface ; 
+      font-size: 1.1rem;
+      text-align: center;
+      padding: 0 10px;
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+    }
+
+    p:first-child {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: darken(wheat, 10%);
+    }
+  }
+}
+
 
 .content {
   flex-grow: 1;
@@ -214,8 +209,8 @@ body {
   .btn {
     padding: 8px 24px;
     margin-left: 10px;
-    background-color: $dark-primary;
-    color: $dark-text;
+    background-color: $btn;
+    color: $dark-surface;
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -239,11 +234,13 @@ body {
   
   .booking-section {
     flex: 1;
-    min-width: 230px;
+    min-width: 230px; 
+    max-width: 590px;
     background: $dark-surface;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
   }
   
   .section-title {
@@ -261,7 +258,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 300px;
+  max-height: 250px !important;
   overflow-y: auto;
   padding-bottom: 6px;
   scrollbar-width: thin;
@@ -317,6 +314,7 @@ body {
 .class-list {
   display: flex;
   flex-wrap: wrap;
+  max-width: 200px;
   gap: 8px;
   
   .class-item {
@@ -353,22 +351,28 @@ body {
   }
 
   .vagon-diagram {
-    max-width: 100%;
+    max-width: 300px;
+    height: 400px;
     margin: 0 auto;
-    overflow-x: auto;
+    overflow-y: auto; 
   }
 
   .vagon-body {
-    background: lighten($dark-surface, 5%);
-    border: 1px solid $dark-primary;
-    border-radius: 6px;
     padding: 10px;
-    min-width: 500px;
+    min-height: 300px; 
+    display: flex;
+    justify-content: space-between; 
     
-    .seat-row {
+    .seat-section {
       display: flex;
-      justify-content: space-around;
-      margin-bottom: 6px;
+      width: 45%; 
+    }
+    
+    .seat-column {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 50%; 
     }
 
     .seat {
@@ -385,6 +389,7 @@ body {
       transition: all 0.3s;
       box-shadow: 0 0 4px rgba($dark-primary, 0.2);
       font-size: 0.65rem;
+      margin-bottom: 6px;
 
       &:hover {
         background: rgba($dark-primary, 0.2);
@@ -407,6 +412,7 @@ body {
       
       .seat-number {
         font-weight: bold;
+        color: $dark-text;
       }
 
       .seat-price {
@@ -419,20 +425,23 @@ body {
 
 // Passenger Details
 .passenger-details {
-  background-color: $dark-surface;
+  background: none;
   color: $dark-text;
   padding: 16px;
   border-radius: 6px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  max-width: 580px;
 
   .form-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    // flex-wrap: wrap;
+    grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 12px;
+    max-width: 670px;
 
     .form-group {
       flex: 1 1 100%;
+      max-width: 570px;
     }
   }
 
@@ -453,7 +462,7 @@ body {
     border-radius: 3px;
     border: 1px solid rgba($dark-primary, 0.5);
     background-color: rgba($dark-bg, 0.8);
-    color: $dark-text;
+    color: whitesmoke;
     font-size: 0.9rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 
@@ -489,34 +498,6 @@ body {
 
     &:active {
       transform: translateY(0);
-    }
-  }
-}
-
-// Footer
-.footer {
-  background-color: #1a1a2e;
-  padding: 16px;
-  text-align: center;
-  color: $dark-text-secondary;
-  font-size: 0.85rem;
-  margin-top: 40px;
-  border-top: 1px solid $dark-primary-variant;
-  
-  .social-links {
-    margin-top: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    
-    .social-link {
-      color: $dark-text-secondary;
-      text-decoration: none;
-      transition: color 0.3s;
-      
-      &:hover {
-        color: $dark-primary;
-      }
     }
   }
 }
@@ -629,17 +610,19 @@ body {
     flex-direction: column;
   }
   
-  .left-sidebar, .right-sidebar {
-    width: 100%;
+  .right-sidebar {
+    width: 90%;
     flex-direction: row;
     gap: 20px;
   }
   
   .image-placeholder {
-    flex: 1;
-    height: 200px;
+    // flex: 1;
+    // height: 200px;
+    display: none;
   }
 }
+
 
 @media (max-width: 768px) {
   .booking-section {
