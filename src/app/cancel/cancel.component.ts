@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from '../services/services.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cancel',
@@ -100,26 +101,38 @@ export class CancelComponent {
       return;
     }
   
-    if (confirm('ნამდვილად გსურთ ბილეთის გაუქმება?')) {
-      this.isLoading = true;
-      this.errorMessage = '';
-      this.successMessage = '';
-      
-      this.apiService.cancelTicket(ticketId)
-        .subscribe({
-          next: (response) => {
-            this.handleCancellationSuccess(ticketId, response);
-          },
-          error: (error: HttpErrorResponse) => {
-            if (error.status === 200) {
-              this.handleCancellationSuccess(ticketId, error.error);
-            } else {
-              this.handleCancellationError(error);
+    Swal.fire({
+      title: 'დადასტურება',
+      text: 'ნამდვილად გსურთ ბილეთის გაუქმება?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'დიახ, გავაუქმოთ',
+      cancelButtonText: 'გაუქმება'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.errorMessage = '';
+        this.successMessage = '';
+        
+        this.apiService.cancelTicket(ticketId)
+          .subscribe({
+            next: (response) => {
+              this.handleCancellationSuccess(ticketId, response);
+            },
+            error: (error: HttpErrorResponse) => {
+              if (error.status === 200) {
+                this.handleCancellationSuccess(ticketId, error.error);
+              } else {
+                this.handleCancellationError(error);
+              }
             }
-          }
-        });
-    }
+          });
+      }
+    });
   }
+
   
   private handleCancellationSuccess(ticketId: string, response: any): void {
     // console.log('Ticket canceled successfully:', response);
