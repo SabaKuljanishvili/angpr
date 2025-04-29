@@ -1,12 +1,12 @@
-$dark-bg: #121212;
-$dark-surface: #e7eacc;
-$dark-primary: #222222;
-$dark-primary-variant: #3700b3;
-$dark-secondary: #0359da;
-$dark-error: #cf6679;
-$dark-text: #000000;
-$dark-text-secondary: #333;
-$btn: #4725ac;
+$dark-bg: #ffffff;
+$dark-surface: #873333b8;
+$dark-primary: #ffffff;
+$dark-primary-variant: #ffbb00;
+$dark-secondary: #ff9d00;
+$dark-error: #62ff00;
+$dark-text: #ffffff;
+$dark-text-secondary: #ffffff;
+$btn: #00ff22;
 .main {
   min-height: 100vh;
 }
@@ -77,7 +77,7 @@ $btn: #4725ac;
     padding: 12px;
     border-radius: 4px;
     border: 1px solid #333;
-    background-color: #252525;
+    background-color: whitesmoke;
     color: $dark-surface;
     font-size: 16px;
 
@@ -158,7 +158,7 @@ button {
 }
 
 .ticket-item {
-  background-color: rgba($dark-surface, 0.6);
+  background-color: rgba(rgb(0, 0, 0), 0.6);
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 16px;
