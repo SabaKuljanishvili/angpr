@@ -62,7 +62,9 @@ table {
   body {
     background-color: var(--bg-dark);
     color: var(--text-light);
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: imp2;
+    font-weight: 600;
+    letter-spacing: 2px;
   }
   
   .app-container {
@@ -71,4 +73,15 @@ table {
     margin: 0 auto;
     padding: 20px;
     color: var(--text-light);
+  }
+
+
+  @font-face  {
+    font-family: imp1 ;
+    src: url(../public/fonts/Meroona\ Display\ Serif.otf) format('truetype');
+  }
+  
+  @font-face  {
+    font-family: imp2;
+    src: url(../public/fonts/Mekaryu\ Display\ Serif.otf) format('truetype');
   }
