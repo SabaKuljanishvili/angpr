@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,13 @@ import { RouterModule } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  constructor(private themeService: ThemeService) {}
+
+  toggleTheme() {
+    const current = this.themeService.getTheme()();
+    this.themeService.setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
      activeRouteClass = "active"
 
 
@@ -29,4 +37,6 @@ export class HeaderComponent {
          this.closeMenu();
        }
      }
+     isDarkTheme = false;
+
 }

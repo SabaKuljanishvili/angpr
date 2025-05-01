@@ -31,6 +31,7 @@ export class HomeComponent  {
   idNumber = '';
 
   constructor(private apiService: ApiService) {}
+  
 
   ngOnInit() {
     this.apiService.getStations().subscribe((data: any) => {
