@@ -10,4 +10,7 @@ import { Component } from '@angular/core';
 })
 export class ErrorDialogComponent {
   showDialog = false
+  closeDialog() {
+    this.showDialog = false
+  }
 }

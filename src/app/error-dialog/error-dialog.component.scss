@@ -1,19 +1,60 @@
-.overlay{
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.615);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
-
-    .dialog{
-        background-color: white;
-        padding: 20px;
-        max-width: 300px;
-        width: 100%;
+    z-index: 999;
+  
+    .dialog {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+  
+      h2 {
+        color: #e53935;
+        margin-bottom: 1rem;
+      }
+  
+      p {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+      }
+  
+      button {
+        background: #e53935;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.3s;
+  
+        &:hover {
+          background: #c62828;
+        }
+      }
     }
-}
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

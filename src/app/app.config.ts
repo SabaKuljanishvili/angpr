@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
   //  provideRouter(routes),
   
   provideHttpClient(
-    withInterceptorsFromDi()  // ეს არის ახალი ვერსია
+    withInterceptorsFromDi()
   ),
   {
     provide: HTTP_INTERCEPTORS,
