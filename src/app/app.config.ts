@@ -7,16 +7,16 @@ import { HttpInterceptorService } from './services/interceptor.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
-   provideHttpClient() ,
-   provideRouter(routes),
+  //  provideHttpClient() ,
+  //  provideRouter(routes),
   
-  // provideHttpClient(
-  //   withInterceptorsFromDi()  // ეს არის ახალი ვერსია
-  // ),
-  // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass : HttpInterceptorService,
-  //   multi : true
-  // }
+  provideHttpClient(
+    withInterceptorsFromDi()  // ეს არის ახალი ვერსია
+  ),
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass : HttpInterceptorService,
+    multi : true
+  }
   ]
 };
