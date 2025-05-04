@@ -15,11 +15,12 @@ export class HttpInterceptorService implements HttpInterceptor {
                if(error.status == 400) {
                  console.log("Bad Requset")
                }
-               else{
-                 console.log("Some Other Errors")
-               }
+               if (error.status == 500) {
+                console.log("Internal Server Error");
+              }
                return throwError(() => error);
          } )
+         
        )
    }
   }
