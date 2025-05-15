@@ -4,6 +4,7 @@ import { CancelComponent } from './cancel/cancel.component';
 import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
 import { TicketComponent } from './ticket/ticket.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: "home", pathMatch: "full"  }, 
@@ -11,6 +12,7 @@ export const routes: Routes = [
     {path: 'cancel', component: CancelComponent},
     {path: 'ticket', component: TicketComponent},
     {path: 'about', component: AboutComponent},
+    { path: 'login', component: LoginComponent },
     {path: '**', component: ErrorComponent },
 
 
@@ -36,5 +38,10 @@ export const routes: Routes = [
         path: "about",
         title: "About",
         loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
+     },
+         {
+        path: "login",
+        title: "login",
+        loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)
      },
 ];
