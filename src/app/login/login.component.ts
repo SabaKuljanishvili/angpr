@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,34 +11,23 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
- credentials = {
-    email: 'eve.holt@reqres.in',
-    password: 'cityslicka'
-  };
-  isLoading = false;
+  email = 'eve.holt@reqres.in';
+  password = 'cityslicka';
   errorMessage = '';
+  successMessage = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService) {}
 
-  login() {
-    this.isLoading = true;
-    this.errorMessage = '';
-    
-    this.authService.login(this.credentials.email, this.credentials.password)
-      .subscribe({
-        next: (response: any) => {
-          this.isLoading = false;
-          localStorage.setItem('auth_token', response.token);
-          this.authService.isAuthenticated.set(true);
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.errorMessage = error;
-        }
-      });
+  onLogin() {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (res) => {
+        this.successMessage = `წარმატებით დაელოგინე! Token: ${res.token}`;
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.error || 'დაფიქსირდა შეცდომა';
+        this.successMessage = '';
+      },
+    });
   }
 }
