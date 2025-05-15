@@ -21,6 +21,7 @@ export class LoginComponent {
   onLogin() {
     this.authService.login(this.email, this.password).subscribe({
       next: (res) => {
+        localStorage.setItem('authToken', res.token);
         this.successMessage = `წარმატებით დაელოგინე! Token: ${res.token}`;
         this.errorMessage = '';
       },
