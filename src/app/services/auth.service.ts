@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -14,14 +14,18 @@ private http = inject(HttpClient);
   isAuthenticated = signal(false);
 
   constructor() {
-    // Check for existing token on initialization
     this.isAuthenticated.set(!!this.getToken());
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-api-key': 'reqres-free-v1' 
+    });
+
+    return this.http.post(`${this.apiUrl}/login`, { email, password }, { headers }).pipe(
       catchError(error => {
-return throwError(() => ({ error: this.handleLoginError(error) }));
+        return throwError(() => this.handleLoginError(error));
       })
     );
   }
