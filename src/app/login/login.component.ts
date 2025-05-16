@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-   credentials = {
+  credentials = {
     email: 'eve.holt@reqres.in',
     password: 'cityslicka'
   };
@@ -21,7 +21,7 @@ export class LoginComponent {
   errorMessage = '';
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthService, 
     private router: Router
   ) {}
 
@@ -48,7 +48,7 @@ export class LoginComponent {
       });
   }
 
-  logout() {
+   logout() {
     this.authService.logout();
   }
 }
