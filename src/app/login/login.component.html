@@ -1,7 +1,7 @@
 <div class="login-container">
   <h2 *ngIf="!isLoggedIn; else loggedInTitle">Login</h2>
 
-  <form (ngSubmit)="login()" *ngIf="!isLoggedIn && !isLoading; else loading">
+  <form (ngSubmit)="login()" *ngIf="!isLoggedIn && !isLoading;">
     <div class="form-group">
       <label for="email">Email:</label>
       <input 
@@ -42,12 +42,12 @@
     </div>
   </ng-template>
   
-  <ng-template #loading>
+  <!-- <ng-template #loading>
     <div class="text-center py-4">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <p class="mt-2">Authenticating...</p>
     </div>
-  </ng-template>
+  </ng-template> -->
 </div>
