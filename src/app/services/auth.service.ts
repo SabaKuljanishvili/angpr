@@ -56,4 +56,5 @@ private handleLoginError(error: any): string {
   getToken(): string | null {
     return localStorage.getItem('auth_token');
   }
+  
 }

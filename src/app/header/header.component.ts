@@ -10,6 +10,7 @@ import { ThemeService } from '../services/theme.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  authService: any;
   constructor(private themeService: ThemeService) {}
 
   toggleTheme() {
@@ -29,7 +30,10 @@ export class HeaderComponent {
      closeMenu(): void {
        this.isMenuOpen = false;
      }
-   
+     logout() {
+    this.authService.logout();
+    this.closeMenu();
+  }
      @HostListener('window:resize', ['$event'])
      onResize(event: Event): void {
        const window = event.target as Window;

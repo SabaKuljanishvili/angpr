@@ -1,7 +1,7 @@
 <div class="login-container">
-  <h2>Login</h2>
-  
-  <form (ngSubmit)="login()" *ngIf="!isLoading; else loading">
+  <h2 *ngIf="!isLoggedIn; else loggedInTitle">Login</h2>
+
+  <form (ngSubmit)="login()" *ngIf="!isLoggedIn && !isLoading; else loading">
     <div class="form-group">
       <label for="email">Email:</label>
       <input 
@@ -34,6 +34,13 @@
       {{ errorMessage }}
     </div>
   </form>
+
+  <ng-template #loggedInTitle>
+    <div class="text-center mt-4">
+      <h2>Welcome back!</h2>
+      <button class="btn btn-danger mt-2" (click)="logout()">Logout</button>
+    </div>
+  </ng-template>
   
   <ng-template #loading>
     <div class="text-center py-4">

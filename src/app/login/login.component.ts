@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
- credentials = {
+   credentials = {
     email: 'eve.holt@reqres.in',
     password: 'cityslicka'
   };
@@ -21,9 +21,13 @@ export class LoginComponent {
   errorMessage = '';
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {}
+
+  get isLoggedIn() {
+    return this.authService.isAuthenticated(); 
+  }
 
   login() {
     this.isLoading = true;
@@ -42,5 +46,9 @@ export class LoginComponent {
           this.errorMessage = error;
         }
       });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
