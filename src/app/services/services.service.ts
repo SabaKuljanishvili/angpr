@@ -49,5 +49,8 @@ export class ApiService {
     const url = `https://railway.stepprojects.ge/api/tickets?name=${encodedName}&surname=${encodedSurname}&idNumber=${encodedIdNumber}`;
     return this.http.get(url);
   }
-  
+  cancelAllTickets(): Observable<any> {
+    const url = 'https://railway.stepprojects.ge/api/tickets/cancelAll';
+    return this.http.delete(url);
+  }
 }

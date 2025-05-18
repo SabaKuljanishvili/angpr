@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ApiService } from '../services/services.service';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,13 @@ export class LoginComponent {
   };
   isLoading = false;
   errorMessage = '';
+  isCancelling = false;
+  cancelMessage = '';
 
   constructor(
     public authService: AuthService, 
-    private router: Router
+    private router: Router,
+    private apiService: ApiService 
   ) {}
 
   get isLoggedIn() {
@@ -48,7 +52,23 @@ export class LoginComponent {
       });
   }
 
-   logout() {
+  logout() {
     this.authService.logout();
+  }
+
+  cancelAllTickets() {
+    this.isCancelling = true;
+    this.cancelMessage = '';
+
+    this.apiService.cancelAllTickets().subscribe({
+      next: (response) => {
+        this.isCancelling = false;
+        this.cancelMessage = 'All tickets successfully cancelled!';
+      },
+      error: (error) => {
+        this.isCancelling = false;
+        this.cancelMessage = 'Failed to cancel tickets: ' + (error.message || 'Unknown error');
+      }
+    });
   }
 }

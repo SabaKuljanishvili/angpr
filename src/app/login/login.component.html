@@ -38,16 +38,16 @@
   <ng-template #loggedInTitle>
     <div class="text-center mt-4">
       <h2>Welcome back!</h2>
-      <button class="btn btn-danger mt-2" (click)="logout()">Logout</button>
+      <button class="btn btn-danger" (click)="logout()">Logout</button>
     </div>
   </ng-template>
-  
-  <!-- <ng-template #loading>
-    <div class="text-center py-4">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-2">Authenticating...</p>
-    </div>
-  </ng-template> -->
+</div>
+
+<div class="cancel-container" *ngIf="isLoggedIn">
+  <button class="btn btn-warning" (click)="cancelAllTickets()" [disabled]="isCancelling">
+    {{ isCancelling ? 'Cancelling tickets...' : 'Cancel All Tickets' }}
+  </button>
+  <div *ngIf="cancelMessage" class="alert mt-3" [ngClass]="{'alert-success': !cancelMessage.includes('Failed'), 'alert-danger': cancelMessage.includes('Failed')}">
+    {{ cancelMessage }}
+  </div>
 </div>

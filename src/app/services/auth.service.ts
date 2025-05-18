@@ -7,6 +7,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   providedIn: 'root'
 })
 export class AuthService {
+  setAuthenticated(arg0: boolean) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'https://reqres.in/api';
   isAuthenticated = signal(!!this.getToken());
 

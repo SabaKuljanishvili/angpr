@@ -1,17 +1,21 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ThemeService } from '../services/theme.service';
+import { AuthService } from '../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  authService: any;
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    public authService: AuthService
+  ) {}
 
   toggleTheme() {
     const current = this.themeService.getTheme()();
